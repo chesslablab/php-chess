@@ -140,7 +140,7 @@ class UciInfoLine implements JsonSerializable
                 case 'score':
                     // Check if next is 'cp' or 'mate', then assign appropriately
                     if (isset($parts[$i + 2])) {
-                        $type = $nextPart === 'cp' ? Type::CP : Type::MATE;
+                        $type = $nextPart === 'cp' ?  Type :: CP : Type :: MATE;
                         $this->score = new Score((int)$parts[$i + 2], $type);
                     }
                     $i++; // Skip next part since it's part of the score
@@ -193,9 +193,9 @@ class UciInfoLine implements JsonSerializable
             return false;
         }
 
-        $isFile = fn ($c) => $c >= 'a' && $c <= 'h';
-        $isDigit = fn ($c) => $c >= '1' && $c <= '8';
-        $isPromotion = fn ($c) => in_array($c, ['n', 'b', 'r', 'q']);
+        $isFile = fn($c) => $c >= 'a' && $c <= 'h';
+        $isDigit = fn($c) => $c >= '1' && $c <= '8';
+        $isPromotion = fn($c) => in_array($c, ['n', 'b', 'r', 'q']);
 
         $isUci = $isFile($move[0]) && $isDigit($move[1]) && $isFile($move[2]) && $isDigit($move[3]);
 
