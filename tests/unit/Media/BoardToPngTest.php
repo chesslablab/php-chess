@@ -37,7 +37,7 @@ class BoardToPngTest extends AbstractUnitTestCase
      */
     public function output_01_kaufman()
     {
-        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - - bm Nf6+');
+        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
         $filename = (new BoardToPng($board))->output(self::OUTPUT_FOLDER);
 
         $this->assertSame(
@@ -51,7 +51,7 @@ class BoardToPngTest extends AbstractUnitTestCase
      */
     public function output_01_kaufman_flip()
     {
-        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - - bm Nf6+');
+        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
         $filename = (new BoardToPng($board, $flip = true))->output(self::OUTPUT_FOLDER);
 
         $this->assertSame(
