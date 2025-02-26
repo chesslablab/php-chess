@@ -424,7 +424,7 @@ class FenToBoardFactoryTest extends AbstractUnitTestCase
      */
     public function endgame_checkmate_play_and_get_start_fen()
     {
-        $expected = '8/8/R7/8/4Q3/rk3K2/8/8 w - -';
+        $expected = '8/8/R7/8/4Q3/rk3K2/8/8 w - - 0 1';
         
         $board = FenToBoardFactory::create('8/8/R7/8/4Q3/rk3K2/8/8 w - -');
 
@@ -441,7 +441,7 @@ class FenToBoardFactoryTest extends AbstractUnitTestCase
      */
     public function endgame_checkmate_play_undo_and_get_start_fen()
     {
-        $expected = '8/8/R7/8/4Q3/rk3K2/8/8 w - -';
+        $expected = '8/8/R7/8/4Q3/rk3K2/8/8 w - - 0 1';
         
         $board = FenToBoardFactory::create('8/8/R7/8/4Q3/rk3K2/8/8 w - -');
 
