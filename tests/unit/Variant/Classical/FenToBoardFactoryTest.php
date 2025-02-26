@@ -308,7 +308,7 @@ class FenToBoardFactoryTest extends AbstractUnitTestCase
             0 => [ '.', '.', 'R', 'Q', '.', 'R', '.', 'K' ],
         ];
 
-        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - - bm Nf6+');
+        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
 
         $this->assertSame($expected, $board->toArray());
     }
@@ -329,7 +329,7 @@ class FenToBoardFactoryTest extends AbstractUnitTestCase
             0 => [ '.', '.', 'R', '.', '.', 'R', '.', 'K' ],
         ];
 
-        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - - bm Nf6+');
+        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
         $board->play('w', 'Qg4');
 
         $this->assertSame($expected, $board->toArray());
@@ -351,7 +351,7 @@ class FenToBoardFactoryTest extends AbstractUnitTestCase
             0 => [ '.', '.', 'R', '.', '.', 'R', '.', 'K' ],
         ];
 
-        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - - bm Nf6+');
+        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
         $board->play('w', 'Qg4');
         $board->play('b', 'a5');
 
@@ -365,7 +365,7 @@ class FenToBoardFactoryTest extends AbstractUnitTestCase
     {
         $expected = ['a6', 'a5'];
 
-        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - - bm Nf6+');
+        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
         $board->play('w', 'Qg4');
 
         $this->assertSame($expected, $board->pieceBySq('a7')->moveSqs());
