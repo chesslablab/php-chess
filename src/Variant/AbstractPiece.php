@@ -287,7 +287,8 @@ abstract class AbstractPiece
         ));
         $this->promote();
         $this->updateCastlingAbility();
-        $this->updateHalfMoveClock();
+        $this->updateHalfmoveClock();
+        $this->updateFullmoveNumber();
         $this->pushHistory();
         $this->board->refresh();
 
@@ -392,7 +393,7 @@ abstract class AbstractPiece
     /**
      * Updates the number of halfmoves since the last capture or pawn advance.
      */
-    public function updateHalfMoveClock(): void
+    public function updateHalfmoveClock(): void
     {
         if (str_contains($this->move['case'], 'x')) {
             $this->board->halfmoveClock = 0;
@@ -403,6 +404,16 @@ abstract class AbstractPiece
             $this->board->halfmoveClock = 0;
         } else {
             $this->board->halfmoveClock += 1;
+        }
+    }
+
+    /**
+     * Updates the number of full moves.
+     */
+    public function updateFullmoveNumber(): void
+    {
+        if ($this->move['color'] === Color::B) {
+            $this->board->fullmoveNumber += 1;
         }
     }
 

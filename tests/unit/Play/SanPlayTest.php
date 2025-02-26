@@ -108,4 +108,20 @@ class SanPlayTest extends AbstractUnitTestCase
 
         $this->assertSame($expected, $board->movetext());
     }
+
+    /**
+     * @test
+     */
+    public function fullmove_number()
+    {
+        $expected = 'r2q1rk1/2pbbpp1/p1np1n1p/4p3/1p2P2P/1B1PBN2/PPPQ1PP1/1NKR3R b - h3 0 12';
+
+        $board = FenToBoardFactory::create('r2q1rk1/2pbbppp/p1np1n2/4p3/1p2P3/1BNPBN2/PPPQ1PPP/2KR3R w - - 0 11');
+
+        $movetext = '1.Nb1 h6 12.h4';
+
+        $board = (new SanPlay($movetext, $board))->validate()->board;
+
+        $this->assertSame($expected, $board->toFen());
+    }
 }

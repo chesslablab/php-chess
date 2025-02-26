@@ -6,8 +6,8 @@ use Chess\Exception\UnknownNotationException;
 use Chess\Variant\AbstractBoard;
 use Chess\Variant\PieceArrayFactory;
 use Chess\Variant\Capablanca\FEN\Str;
-use Chess\Variant\Capablanca\PGN\Square;
 use Chess\Variant\Classical\FenToBoardFactory as ClassicalFenToBoardFactory;
+use Chess\Variant\Capablanca\PGN\Square;
 
 /**
  * FEN to Board Factory
@@ -32,15 +32,19 @@ class FenToBoardFactory
             $fields = array_filter(explode(' ', $string));
             $namespace = 'Capablanca';
             $shuffle = (new Shuffle())->extract($string);
+            $castlingRule = new CastlingRule($shuffle);
             $pieces = PieceArrayFactory::create(
                 $fenStr->toArray($fields[0]),
                 new Square(),
-                new CastlingRule($shuffle),
+                $castlingRule,
                 $namespace
             );
-            $board = new Board($shuffle, $pieces, $fields[2]);
+            $castlingAbility = $fields[2];
+            $board = new Board($shuffle, $pieces, $castlingAbility);
             $board->turn = $fields[1];
-            $board->startFen = $string;
+            $board->halfmoveClock = $fields[4] ?? 0;
+            $board->fullmoveNumber = $fields[5] ?? 1;
+            $board->startFen = "{$fields[0]} {$fields[1]} {$castlingAbility} {$fields[3]} {$board->halfmoveClock} {$board->fullmoveNumber}";
             ClassicalFenToBoardFactory::enPassant($fields, $board);
         } catch (\Throwable $e) {
             throw new UnknownNotationException();

@@ -43,7 +43,9 @@ class FenToBoardFactory
             $castlingAbility = self::replaceChars($fields[2], $castlingRule);
             $board = new Board($shuffle, $pieces, $castlingAbility);
             $board->turn = $fields[1];
-            $board->startFen = "{$fields[0]} {$fields[1]} {$castlingAbility} {$fields[3]}";
+            $board->halfmoveClock = $fields[4] ?? 0;
+            $board->fullmoveNumber = $fields[5] ?? 1;
+            $board->startFen = "{$fields[0]} {$fields[1]} {$castlingAbility} {$fields[3]} {$board->halfmoveClock} {$board->fullmoveNumber}";
             ClassicalFenToBoardFactory::enPassant($fields, $board);
         } catch (\Throwable $e) {
             throw new UnknownNotationException();
