@@ -96,7 +96,7 @@ b8c6
 use Chess\Media\BoardToPng;
 use Chess\Variant\Classical\FenToBoardFactory;
 
-$board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - - bm Nf6+');
+$board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
 
 $filename = (new BoardToPng($board, $flip = true))->output(__DIR__);
 ```
