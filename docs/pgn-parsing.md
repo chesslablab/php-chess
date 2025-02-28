@@ -225,6 +225,8 @@ $result = $parser->getResult();
 var_dump($result);
 ```
 
+[Chess\Play\SanPlay](https://github.com/chesslablab/php-chess/blob/main/tests/unit/Play/SanPlayTest.php) plays a bunch of moves at once throwing an exception of type `Chess\Exception\UnknownNotationException` if a move cannot be made.
+
 ```text
 array(10) {
   ["Event"]=>
