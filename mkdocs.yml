@@ -8,3 +8,4 @@ nav:
   - Heuristics: heuristics.md
   - Chess Tutor: chess-tutor.md
   - Play Chess: play-chess.md
+  - PGN Parsing: pgn-parsing.md
