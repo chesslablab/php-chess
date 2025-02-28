@@ -105,6 +105,19 @@ $filename = (new BoardToPng($board, $flip = true))->output(__DIR__);
 
 Try this thing! Share a puzzling chess position with friends for further study.
 
+## Board to JPG
+
+[Chess\Media\BoardToJpg](https://github.com/chesslablab/php-chess/blob/main/tests/unit/Media/BoardToJpgTest.php) converts a chess board object to a JPG image.
+
+```php
+use Chess\Media\BoardToJpg;
+use Chess\Variant\Classical\FenToBoardFactory;
+
+$board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
+
+$filename = (new BoardToJpg($board, $flip = true))->output(__DIR__);
+```
+
 ## Board to MP4
 
 ✨ Text-based PGN movetexts can be easily converted to MP4, a widely-used video format which comes in handy for pausing the games.
