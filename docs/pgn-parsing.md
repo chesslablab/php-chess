@@ -1,6 +1,8 @@
 # PGN Parsing
 
-✨ The World Wide Web is filled with Portable Game Notation (PGN) files that can be parsed for chess apps to use. Also you may want to publish your collection of games on your ChesslaBlab website. The thing though with such a huge amount of information is that it may not be always accurate. However, PHP Chess provides syntax and semantic validation for chess games to make sure everything is okay.
+✨ The World Wide Web is filled with Portable Game Notation (PGN) files that can be parsed for chess apps to use. Also you may want to publish your collection of games on your ChesslaBlab website.
+
+The thing though with such a huge amount of information is that it may not be always accurate. However, PHP Chess provides syntax and semantic validation for chess games to make sure everything is okay.
 
 ## Syntax Validation
 
