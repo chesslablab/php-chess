@@ -6,6 +6,6 @@ nav:
   - Getting Started: getting-started.md
   - Format Converters: format-converters.md
   - Heuristics: heuristics.md
-  - Chess Tutor: chess-tutor.md
+  - Tutor: tutor.md
   - Play Chess: play-chess.md
   - PGN Parsing: pgn-parsing.md

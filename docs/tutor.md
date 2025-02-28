@@ -1,4 +1,4 @@
-# Chess Tutor
+# Tutor
 
 ## Explain a FEN Position
 
