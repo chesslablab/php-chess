@@ -41,7 +41,7 @@ class BoardTest extends AbstractUnitTestCase
 
         $parser = new PgnParser(new Move(), self::DATA_FOLDER . "/sample/" . "classical.pgn");
 
-        $parser->onValidation(function($tags, $movetext) {
+        $parser->onValidation(function(array $tags, string $movetext) {
             $board = isset($tags['FEN']) 
                 ? FenToBoardFactory::create($tags['FEN']) 
                 : FenToBoardFactory::create();

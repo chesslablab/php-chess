@@ -27,7 +27,7 @@ class BoardTest extends AbstractUnitTestCase
 
         $parser = new PgnParser(new Move(), self::DATA_FOLDER . "/sample/" . "chess960.pgn");
 
-        $parser->onValidation(function($tags, $movetext) {
+        $parser->onValidation(function(array $tags, string $movetext) {
             $board = FenToBoardFactory::create($tags['FEN']);
             (new SanPlay($movetext, $board))->validate();
         });
