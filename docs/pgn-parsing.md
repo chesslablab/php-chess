@@ -225,7 +225,7 @@ $result = $parser->getResult();
 var_dump($result);
 ```
 
-[Chess\Play\SanPlay](https://github.com/chesslablab/php-chess/blob/main/tests/unit/Play/SanPlayTest.php) plays a bunch of moves at once throwing an exception of type `Chess\Exception\UnknownNotationException` if a move cannot be made.
+[Chess\Play\SanPlay](https://github.com/chesslablab/php-chess/blob/main/tests/unit/Play/SanPlayTest.php) allows to play a bunch of moves at once throwing an exception of type `Chess\Exception\UnknownNotationException` if a move cannot be made.
 
 ```text
 array(10) {
@@ -281,4 +281,8 @@ array(2) {
   int(3)
 }
 ```
+
+Semantic validation is a must for use cases like testing thousands of games for chess variant development purposes. This is the approach taken in the [sample_chess960()](https://github.com/chesslablab/php-chess/blob/main/tests/unit/Variant/Chess960/BoardTest.php#L21) test.
+
+🎉 Let's parse PGN games using PHP Chess.
 
