@@ -168,3 +168,24 @@ array(2) {
 ```
 
 Syntax validation is okay for use cases like loading hundreds of thousands of games into a database with the precondition that the games have previously been validated. This is the approach taken in the [cli/seed/games.php](https://github.com/chesslablab/chess-data/blob/main/cli/seed/games.php) script.
+
+## Semantic Validation
+
+Semantics deal with the meaning assigned to the movetext and make sure that the sequence of moves can be played as per the rules of the variant in use.
+
+The following example shows how to validate the semantics of the PGN file above.
+
+```php
+use Chess\PgnParser;
+use Chess\Variant\Classical\FenToBoardFactory;
+use Chess\Variant\Classical\PGN\Move;
+
+$parser = new PgnParser(new Move(), __DIR__ . '/example.pgn');
+
+$parser->onValidation(function($tags, $movetext) {
+    $board = FenToBoardFactory::create();
+    (new SanPlay($movetext, $board))->validate();
+});
+
+$parser->parse();
+```
