@@ -48,6 +48,9 @@
                             <li class="navitem">
                                 <a href="../play-chess/" class="nav-link">Play Chess</a>
                             </li>
+                            <li class="navitem">
+                                <a href="../pgn-parsing/" class="nav-link">PGN Parsing</a>
+                            </li>
                         </ul>
 
                     <ul class="nav navbar-nav ml-auto">
@@ -180,7 +183,7 @@ echo $lan;
 <pre><code class="language-php">use Chess\Media\BoardToPng;
 use Chess\Variant\Classical\FenToBoardFactory;
 
-$board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - - bm Nf6+');
+$board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
 
 $filename = (new BoardToPng($board, $flip = true))-&gt;output(__DIR__);
 </code></pre>
