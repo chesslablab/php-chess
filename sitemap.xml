@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://php-chess.chesslablab.org/getting-started/</loc>
-     <lastmod>2025-02-28</lastmod>
+     <lastmod>2025-03-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://php-chess.chesslablab.org/formats/</loc>
-     <lastmod>2025-02-28</lastmod>
+     <lastmod>2025-03-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://php-chess.chesslablab.org/heuristics/</loc>
-     <lastmod>2025-02-28</lastmod>
+     <lastmod>2025-03-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://php-chess.chesslablab.org/tutor/</loc>
-     <lastmod>2025-02-28</lastmod>
+     <lastmod>2025-03-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://php-chess.chesslablab.org/play-chess/</loc>
-     <lastmod>2025-02-28</lastmod>
+     <lastmod>2025-03-01</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://php-chess.chesslablab.org/pgn-parsing/</loc>
-     <lastmod>2025-02-28</lastmod>
+     <lastmod>2025-03-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

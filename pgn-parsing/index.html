@@ -264,7 +264,7 @@ array(2) {
 </code></pre>
 <p>Syntax validation is okay for use cases like loading hundreds of thousands of games into a database with the precondition that the games have previously been validated. This is the approach taken in the <a href="https://github.com/chesslablab/chess-data/blob/main/cli/seed/games.php">cli/seed/games.php</a> script.</p>
 <h2 id="semantic-validation">Semantic Validation</h2>
-<p>Semantics deal with the meaning assigned to the movetext, so a semantic parsing checks that the sequence of moves can be played as per the rules of the variant in use.</p>
+<p>Semantics deal with the meaning assigned to the movetext checking that the sequence of moves can be played as per the rules of the variant in use.</p>
 <p>Let's now validate the semantics of the PGN file above. This time, tough, we are adding an error to the first game to see what will happen.</p>
 <pre><code class="language-text">[Event &quot;WCh 2013&quot;]
 [Site &quot;Chennai IND&quot;]
@@ -286,7 +286,7 @@ array(2) {
 44.Bc4 h4 45.Qc7 hxg3 46.Qxg3 e5 47.Kf3 Qxg3+ 48.fxg3 Bc5 49.Ke4 Bd4 50.Kf5 Bf2
 51.Kxe5 Bxg3+  1/2-1/2
 </code></pre>
-<p>As you can see in this example, the first move <code>1.Nf3 Nf3</code> is semantically incorrect, and for this reason it won't be dumped into the console.</p>
+<p>As you can see in this example, the first move <code>1.Nf3 Nf3</code> is incorrect, and for this reason it won't be dumped into the console.</p>
 <pre><code class="language-php">use Chess\PgnParser;
 use Chess\Exception\UnknownNotationException;
 use Chess\Play\SanPlay;
@@ -365,7 +365,7 @@ array(2) {
   int(3)
 }
 </code></pre>
-<p>Semantic validation is a must for use cases like testing thousands of games for chess variant development purposes. This is the approach taken in the <a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Variant/Chess960/BoardTest.php#L21">sample_chess960()</a> test.</p>
+<p>Semantic validation is a must for use cases like developing a chess variant with a TDD strategy like in the <a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Variant/Chess960/BoardTest.php#L21">sample_chess960()</a> test.</p>
 <p>🎉 Let's parse PGN games using PHP Chess.</p></div>
             </div>
         </div>
