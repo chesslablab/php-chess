@@ -2,7 +2,7 @@
 
 ✨ The World Wide Web is bursting with Portable Game Notation (PGN) files that can be parsed for chess apps to use. Also you may want to publish your collection of games on your ChesslaBlab website. The thing though with such a huge amount of information is that it may not be always accurate.
 
-However, PHP Chess provides syntax and semantic validation for chess games to make sure everything is okay.
+However, PHP Chess provides syntax and semantic validation for chess games to make sure everything is working as expected.
 
 ## Syntax Validation
 
@@ -169,7 +169,7 @@ array(2) {
 }
 ```
 
-Syntax validation is okay for use cases like loading hundreds of thousands of games into a database with the precondition that the games have previously been validated. This is the approach taken in the [cli/seed/games.php](https://github.com/chesslablab/chess-data/blob/main/cli/seed/games.php) script.
+Syntax validation is required when loading hundreds of thousands of games into a database with the precondition that the games have probably been validated. This is the approach followed in the [cli/seed/games.php](https://github.com/chesslablab/chess-data/blob/main/cli/seed/games.php) script.
 
 ## Semantic Validation
 
