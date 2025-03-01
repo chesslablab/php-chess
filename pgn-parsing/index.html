@@ -106,7 +106,7 @@
 
 <h1 id="pgn-parsing">PGN Parsing</h1>
 <p>✨ The World Wide Web is bursting with Portable Game Notation (PGN) files that can be parsed for chess apps to use. Also you may want to publish your collection of games on your ChesslaBlab website. The thing though with such a huge amount of information is that it may not be always accurate.</p>
-<p>However, PHP Chess provides syntax and semantic validation for chess games to make sure everything is okay.</p>
+<p>However, PHP Chess provides syntax and semantic validation for chess games to make sure everything is working as expected.</p>
 <h2 id="syntax-validation">Syntax Validation</h2>
 <p>With syntax validation, the PGN parser checks that the games in the file don't contain any typos and are correctly formatted, following the syntax guidelines defined in the PGN specification.</p>
 <p>The following example shows how to validate the syntax of a file containing 3 games by Anand.</p>
@@ -262,7 +262,7 @@ array(2) {
   int(3)
 }
 </code></pre>
-<p>Syntax validation is okay for use cases like loading hundreds of thousands of games into a database with the precondition that the games have previously been validated. This is the approach taken in the <a href="https://github.com/chesslablab/chess-data/blob/main/cli/seed/games.php">cli/seed/games.php</a> script.</p>
+<p>Syntax validation is required when loading hundreds of thousands of games into a database with the precondition that the games have probably been validated. This is the approach followed in the <a href="https://github.com/chesslablab/chess-data/blob/main/cli/seed/games.php">cli/seed/games.php</a> script.</p>
 <h2 id="semantic-validation">Semantic Validation</h2>
 <p>Semantics deal with the meaning assigned to the movetext checking that the sequence of moves can be played as per the rules of the variant in use.</p>
 <p>Let's now validate the semantics of the PGN file above. This time, though, an error has been added to the first game to see what will happen.</p>
