@@ -175,7 +175,7 @@ Syntax validation is okay for use cases like loading hundreds of thousands of ga
 
 Semantics deal with the meaning assigned to the movetext checking that the sequence of moves can be played as per the rules of the variant in use.
 
-Let's now validate the semantics of the PGN file above. This time, tough, we are adding an error to the first game to see what will happen.
+Let's now validate the semantics of the PGN file above. This time, though, an error has been added to the first game to see what will happen.
 
 ```text
 [Event "WCh 2013"]
