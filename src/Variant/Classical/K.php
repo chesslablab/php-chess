@@ -217,6 +217,8 @@ class K extends AbstractPiece
                 )
             );
             $this->updateCastlingAbility();
+            $this->updateHalfmoveClock();
+            $this->updateFullmoveNumber();
             $this->pushHistory();
             $this->board->refresh();
             return true;
