@@ -1,6 +1,6 @@
 # PHP Chess
 
-✨ [PHP Chess](https://github.com/chesslablab/php-chess) is a chess library offering move validation, common formats, multiple variants, UCI engine support, explanation of chess positions, image recognition and knowledge extraction from games.
+✨ [PHP Chess](https://github.com/chesslablab/php-chess) is a chess library offering move validation, common formats, multiple variants, UCI engine support, explanation of chess positions, image recognition, PGN parsing and knowledge extraction from games.
 
 ## Installation
 
