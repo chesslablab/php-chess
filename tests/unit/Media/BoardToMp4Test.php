@@ -29,9 +29,16 @@ class BoardToMp4Test extends AbstractUnitTestCase
             $A74,
             $board,
             $flip = false
-        ))->output(self::OUTPUT_FOLDER, 'A74', $r = 2, $fps = 2, $crf = 36, $pixFmt = 'monow');
+        ))->output(
+            $filepath = self::OUTPUT_FOLDER, 
+            $filename = 'A74', 
+            $r = 2, 
+            $fps = 2, 
+            $crf = 36, 
+            $pixFmt = 'monow'
+        );
 
-        $this->assertTrue(file_exists(self::OUTPUT_FOLDER.'/'.$filename));
+        $this->assertTrue(file_exists(self::OUTPUT_FOLDER . '/' . $filename));
     }
 
     /**
@@ -47,9 +54,9 @@ class BoardToMp4Test extends AbstractUnitTestCase
             $movetext,
             $board,
             $flip = false
-        ))->output(self::OUTPUT_FOLDER);
+        ))->output($filepath = self::OUTPUT_FOLDER);
 
-        $this->assertTrue(file_exists(self::OUTPUT_FOLDER.'/'.$filename));
+        $this->assertTrue(file_exists(self::OUTPUT_FOLDER . '/' . $filename));
     }
 
     /**
@@ -65,8 +72,8 @@ class BoardToMp4Test extends AbstractUnitTestCase
             $movetext,
             $board,
             $flip = false
-        ))->output(self::OUTPUT_FOLDER);
+        ))->output($filepath = self::OUTPUT_FOLDER);
 
-        $this->assertTrue(file_exists(self::OUTPUT_FOLDER.'/'.$filename));
+        $this->assertTrue(file_exists(self::OUTPUT_FOLDER . '/' . $filename));
     }
 }
