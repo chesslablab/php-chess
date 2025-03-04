@@ -212,15 +212,19 @@ $movetext = '1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7';
 
 $board = new Board();
 
-$filename = (new BoardToMp4($movetext, $board, $flip = false))-&gt;output(__DIR__);
+$filename = (new BoardToMp4($movetext, $board, $flip = false))
+    -&gt;output(__DIR__, '', $r = 2, $fps = 2, $crf = 28, $pixFmt = 'yuv420p');
 </code></pre>
-<p>FFmpeg is used under the hood to handle video with the following default values:</p>
+<p>FFmpeg is used under the hood to handle video with parameters that can be changed in the <code>output()</code> method:</p>
 <ul>
-<li><code>r</code> value of <code>2</code></li>
-<li><code>fps</code> value of <code>2</code></li>
-<li><code>crf</code> value of <code>28</code></li>
-<li><code>pix_fmt</code> value of <code>yuv420p</code></li>
+<li><code>$r = 2</code></li>
+<li><code>$fps = 2</code></li>
+<li><code>$crf = 28</code></li>
+<li><code>$pix_fmt = 'yuv420p'</code></li>
 </ul>
+<pre><code class="language-php">$filename = (new BoardToMp4($movetext, $board, $flip = false))
+    -&gt;output(__DIR__, '', $r = 2, $fps = 2, $crf = 36, $pixFmt = 'monow');
+</code></pre>
 <h2 id="image-to-fen">Image to FEN</h2>
 <p>✨ A chess piece image recognizer has been created in the <a href="https://github.com/chesslablab/perception">chesslablab/perception</a> repository with the help of a multilayer neural network.</p>
 <p><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Media/ImgToPiecePlacementTest.php">Chess\Media\ImgToPiecePlacement</a> relies on this recognizer to convert a GD image into a piece placement in FEN format.</p>
