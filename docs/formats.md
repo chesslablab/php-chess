@@ -135,7 +135,12 @@ $board = new Board();
 $filename = (new BoardToMp4($movetext, $board, $flip = false))->output(__DIR__);
 ```
 
-MP4 videos are especially useful to pause the game at a specific position.
+FFmpeg is used under the hood to handle video with the following default values:
+
+- `r` value of `2`
+- `fps` value of `2`
+- `crf` value of `28`
+- `pix_fmt` value of `yuv420p`
 
 ## Image to FEN
 
