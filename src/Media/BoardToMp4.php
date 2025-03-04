@@ -71,6 +71,10 @@ class BoardToMp4
      * 
      * @param string $filepath
      * @param string $filename
+     * @param int $r
+     * @param int $fps
+     * @param int $crf
+     * @param string $pixFmt
      * @return string
      */
     public function output(
@@ -120,6 +124,8 @@ class BoardToMp4
      * 
      * @param string $filepath
      * @param string $filename
+     * @param int $r
+     * @param int $fps
      * @param int $crf
      * @param string $pixFmt
      * @return \Chess\Media\BoardToMp4
