@@ -138,11 +138,6 @@ $filename = (new BoardToMp4($movetext, $board, $flip = false))
 
 FFmpeg is used under the hood to handle video with parameters that can be changed in the `output()` method:
 
-- `$r = 2`
-- `$fps = 2`
-- `$crf = 28`
-- `$pix_fmt = 'yuv420p'`
-
 ```php
 $filename = (new BoardToMp4($movetext, $board, $flip = false))
     ->output(__DIR__, '', $r = 2, $fps = 2, $crf = 36, $pixFmt = 'monow');
