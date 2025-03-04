@@ -214,7 +214,13 @@ $board = new Board();
 
 $filename = (new BoardToMp4($movetext, $board, $flip = false))-&gt;output(__DIR__);
 </code></pre>
-<p>MP4 videos are especially useful to pause the game at a specific position.</p>
+<p>FFmpeg is used under the hood to handle video with the following default values:</p>
+<ul>
+<li><code>r</code> value of <code>2</code></li>
+<li><code>fps</code> value of <code>2</code></li>
+<li><code>crf</code> value of <code>28</code></li>
+<li><code>pix_fmt</code> value of <code>yuv420p</code></li>
+</ul>
 <h2 id="image-to-fen">Image to FEN</h2>
 <p>✨ A chess piece image recognizer has been created in the <a href="https://github.com/chesslablab/perception">chesslablab/perception</a> repository with the help of a multilayer neural network.</p>
 <p><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Media/ImgToPiecePlacementTest.php">Chess\Media\ImgToPiecePlacement</a> relies on this recognizer to convert a GD image into a piece placement in FEN format.</p>
