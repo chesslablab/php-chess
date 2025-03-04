@@ -135,12 +135,16 @@ $board = new Board();
 $filename = (new BoardToMp4($movetext, $board, $flip = false))->output(__DIR__);
 ```
 
-FFmpeg is used under the hood to handle video with the following default values:
+FFmpeg is used under the hood to handle video with the following default parameters that can be changed in the `output()` method:
 
-- `r` value of `2`
-- `fps` value of `2`
-- `crf` value of `28`
-- `pix_fmt` value of `yuv420p`
+- `$r = 2`
+- `$fps = 2`
+- `$crf = 28`
+- `$pix_fmt = 'yuv420p'`
+
+```php
+$filename = (new BoardToMp4($movetext, $board, $flip = false))->output(__DIR__, $crf = 36, $pixFmt = 'monow');
+```
 
 ## Image to FEN
 
