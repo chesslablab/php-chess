@@ -5,18 +5,54 @@ namespace Chess\Media;
 use Chess\Movetext\SanMovetext;
 use Chess\Variant\AbstractBoard;
 
+/**
+ * Board To MP4 Conversion
+ *
+ * Text-based PGN movetexts can be easily converted to MP4, a widely-used video
+ * format which comes in handy for pausing the games.
+ */
 class BoardToMp4
 {
+    /**
+     * The maximum number of moves.
+     *
+     * @var int
+     */
     const MAX_MOVES = 300;
 
+    /**
+     * The extension of the file.
+     *
+     * @var string
+     */
     protected $ext = '.mp4';
 
+    /**
+     * The text-based PGN movetext in SAN format.
+     *
+     * @var \Chess\Movetext\SanMovetext
+     */
     protected SanMovetext $sanMovetext;
 
+    /**
+     * The chess board.
+     *
+     * @var \Chess\Variant\AbstractBoard
+     */
     protected AbstractBoard $board;
 
+    /**
+     * The orientation of the board.
+     *
+     * @var bool
+     */
     protected bool $flip;
 
+    /**
+     * @param string $movetext
+     * @param \Chess\Variant\AbstractBoard $board
+     * @param bool $flip
+     */
     public function __construct(string $movetext, AbstractBoard $board, bool $flip = false)
     {
         $this->sanMovetext = new SanMovetext($board->move, $movetext);
@@ -30,6 +66,13 @@ class BoardToMp4
         $this->flip = $flip;
     }
 
+    /**
+     * Creates the video file in the filesystem.
+     * 
+     * @param string $filepath
+     * @param string $filename
+     * @return string
+     */
     public function output(string $filepath, string $filename = ''): string
     {
         if (!file_exists($filepath)) {
@@ -47,6 +90,13 @@ class BoardToMp4
         return $filename;
     }
 
+    /**
+     * Creates the video frames in the filesystem.
+     * 
+     * @param string $filepath
+     * @param string $filename
+     * @return \Chess\Media\BoardToMp4
+     */
     private function frames(string $filepath, string $filename): BoardToMp4
     {
         $boardToPng = new BoardToPng($this->board, $this->flip);
@@ -60,6 +110,15 @@ class BoardToMp4
         return $this;
     }
 
+    /**
+     * Animates the video frames using ffmpeg.
+     * 
+     * @param string $filepath
+     * @param string $filename
+     * @param int $crf
+     * @param string $pixFmt
+     * @return \Chess\Media\BoardToMp4
+     */
     private function animate(
         string $filepath,
         string $filename,
@@ -82,6 +141,12 @@ class BoardToMp4
         return $this;
     }
 
+    /**
+     * Deletes the video frames from the filesystem.
+     * 
+     * @param string $filepath
+     * @param string $filename
+     */
     private function cleanup(string $filepath, string $filename): void
     {
         if (file_exists("{$filepath}/$filename")) {
