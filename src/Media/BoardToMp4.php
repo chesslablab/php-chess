@@ -2,7 +2,6 @@
 
 namespace Chess\Media;
 
-use Chess\Exception\MediaException;
 use Chess\Movetext\SanMovetext;
 use Chess\Variant\AbstractBoard;
 
@@ -22,10 +21,10 @@ class BoardToMp4
     {
         $this->sanMovetext = new SanMovetext($board->move, $movetext);
         if (!$this->sanMovetext->validate()) {
-            throw new MediaException();
+            throw new \InvalidArgumentException();
         }
         if (self::MAX_MOVES < count($this->sanMovetext->moves)) {
-            throw new MediaException();
+            throw new \InvalidArgumentException();
         }
         $this->board = $board;
         $this->flip = $flip;
