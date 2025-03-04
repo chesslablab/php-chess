@@ -78,10 +78,8 @@ class BoardToMp4
         if (!file_exists($filepath)) {
             throw new \InvalidArgumentException('The folder does not exist.');
         }
-
-        $filename
-            ? $filename = $filename . $this->ext
-            : $filename = uniqid() . $this->ext;
+        
+        $filename = $filename ? $filename . $this->ext : uniqid() . $this->ext; 
 
         $this->frames($filepath, $filename)
             ->animate(escapeshellarg($filepath), $filename)
