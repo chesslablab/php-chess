@@ -120,15 +120,17 @@ class BoardToMp4
     private function animate(
         string $filepath,
         string $filename,
+        int $r = 2,
+        int $fps = 2,
         int $crf = 28,
         string $pixFmt = 'yuv420p'
     ): BoardToMp4
     {
         $cmd = "ffmpeg
-            -r 2
+            -r $r
             -pattern_type glob
             -i {$filepath}/{$filename}*.png
-            -vf fps=2
+            -vf fps=$fps
             -vcodec libx265
             -crf $crf
             -x265-params threads=6
