@@ -61,11 +61,24 @@ class BoardToMp4
         return $this;
     }
 
-    private function animate(string $filepath, string $filename): BoardToMp4
+    private function animate(
+        string $filepath,
+        string $filename,
+        int $crf = 28,
+        string $pixFmt = 'yuv420p'
+    ): BoardToMp4
     {
-        $cmd = "ffmpeg -r 2 -pattern_type glob -i {$filepath}/{$filename}*.png -vf fps=2 -vcodec libx265 -crf 36 -x265-params threads=6 -pix_fmt monow {$filepath}/{$filename}";
-        $escapedCmd = escapeshellcmd($cmd);
-        exec($escapedCmd);
+        $cmd = "ffmpeg
+            -r 2
+            -pattern_type glob
+            -i {$filepath}/{$filename}*.png
+            -vf fps=2
+            -vcodec libx265
+            -crf $crf
+            -x265-params threads=6
+            -pix_fmt $pixFmt {$filepath}/{$filename}";
+            
+        exec(escapeshellcmd($cmd));
 
         return $this;
     }
