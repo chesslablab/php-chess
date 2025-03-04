@@ -29,7 +29,7 @@ class BoardToMp4Test extends AbstractUnitTestCase
             $A74,
             $board,
             $flip = false
-        ))->output(self::OUTPUT_FOLDER, 'A74');
+        ))->output(self::OUTPUT_FOLDER, 'A74', $csrf = 36, $pixFmt = 'monow');
 
         $this->assertTrue(file_exists(self::OUTPUT_FOLDER.'/'.$filename));
     }
