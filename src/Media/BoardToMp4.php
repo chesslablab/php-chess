@@ -73,7 +73,14 @@ class BoardToMp4
      * @param string $filename
      * @return string
      */
-    public function output(string $filepath, string $filename = ''): string
+    public function output(
+        string $filepath,
+        string $filename = '',
+        int $r = 2,
+        int $fps = 2,
+        int $crf = 28,
+        string $pixFmt = 'yuv420p'
+    ): string
     {
         if (!file_exists($filepath)) {
             throw new \InvalidArgumentException('The folder does not exist.');
@@ -82,7 +89,7 @@ class BoardToMp4
         $filename = $filename ? $filename . $this->ext : uniqid() . $this->ext; 
 
         $this->frames($filepath, $filename)
-            ->animate(escapeshellarg($filepath), $filename)
+            ->animate(escapeshellarg($filepath), $filename, $r, $fps, $crf, $pixFmt)
             ->cleanup($filepath, $filename);
 
         return $filename;
