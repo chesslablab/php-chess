@@ -216,12 +216,6 @@ $filename = (new BoardToMp4($movetext, $board, $flip = false))
     -&gt;output(__DIR__, '', $r = 2, $fps = 2, $crf = 28, $pixFmt = 'yuv420p');
 </code></pre>
 <p>FFmpeg is used under the hood to handle video with parameters that can be changed in the <code>output()</code> method:</p>
-<ul>
-<li><code>$r = 2</code></li>
-<li><code>$fps = 2</code></li>
-<li><code>$crf = 28</code></li>
-<li><code>$pix_fmt = 'yuv420p'</code></li>
-</ul>
 <pre><code class="language-php">$filename = (new BoardToMp4($movetext, $board, $flip = false))
     -&gt;output(__DIR__, '', $r = 2, $fps = 2, $crf = 36, $pixFmt = 'monow');
 </code></pre>
