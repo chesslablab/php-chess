@@ -132,10 +132,11 @@ $movetext = '1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7';
 
 $board = new Board();
 
-$filename = (new BoardToMp4($movetext, $board, $flip = false))->output(__DIR__);
+$filename = (new BoardToMp4($movetext, $board, $flip = false))
+    ->output(__DIR__, '', $r = 2, $fps = 2, $crf = 28, $pixFmt = 'yuv420p');
 ```
 
-FFmpeg is used under the hood to handle video with the following default parameters that can be changed in the `output()` method:
+FFmpeg is used under the hood to handle video with parameters that can be changed in the `output()` method:
 
 - `$r = 2`
 - `$fps = 2`
@@ -143,7 +144,8 @@ FFmpeg is used under the hood to handle video with the following default paramet
 - `$pix_fmt = 'yuv420p'`
 
 ```php
-$filename = (new BoardToMp4($movetext, $board, $flip = false))->output(__DIR__, $crf = 36, $pixFmt = 'monow');
+$filename = (new BoardToMp4($movetext, $board, $flip = false))
+    ->output(__DIR__, '', $r = 2, $fps = 2, $crf = 36, $pixFmt = 'monow');
 ```
 
 ## Image to FEN
