@@ -159,7 +159,7 @@ $filename = (new BoardToMp4(
     $r = 2,
     $fps = 2,
     $crf = 36,
-    $pixFmt = 'monow'
+    $pixFmt = 'gray'
 );
 ```
 
