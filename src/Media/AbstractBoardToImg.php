@@ -67,7 +67,7 @@ class AbstractBoardToImg
                         self::FILEPATH .
                         "/pieces/{$this->pieceSet}" .
                         "/png/" .
-                        "/$sqSize" . (strtoupper($filename) === $filename ? 'white' : 'black') .
+                        "/$sqSize" . (strtoupper($filename) === $filename ? '_white' : '_black') .
                         "/$filename.png"
                     );
                     $chessboard->paste($image, new Point($x, $y));
