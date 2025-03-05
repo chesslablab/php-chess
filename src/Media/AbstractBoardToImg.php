@@ -8,6 +8,10 @@ use Imagine\Image\Point;
 
 class AbstractBoardToImg
 {
+    const PIECE_SET_CLASSICAL = 'classical';
+
+    const PIECE_SET_STAUNTY = 'staunty';
+
     const FILEPATH = __DIR__ . '/../../img';
 
     protected AbstractBoard $board;
@@ -16,13 +20,21 @@ class AbstractBoardToImg
 
     protected int $size;
 
+    protected string $pieceSet;
+
     protected Imagine $imagine;
 
-    public function __construct(AbstractBoard $board, bool $flip = false, $size = 480)
+    public function __construct(
+        AbstractBoard $board,
+        bool $flip = false,
+        $size = 480,
+        $pieceSet = self::PIECE_SET_CLASSICAL
+    )
     {
         $this->board = $board;
         $this->flip = $flip;
         $this->size = $size;
+        $this->pieceSet = $pieceSet;
         $this->imagine = new Imagine();
     }
 
@@ -51,9 +63,12 @@ class AbstractBoardToImg
             foreach ($rank as $j => $piece) {
                 if ($piece !== '.') {
                     $filename = trim($piece);
-                    $isWhite = strtoupper($filename) === $filename;
                     $image = $this->imagine->open(
-                        self::FILEPATH . '/pieces/png/' . $sqSize . ($isWhite ? 'white' : 'black') . '/' . $filename . '.png'
+                        self::FILEPATH .
+                        "/pieces/{$this->pieceSet}" .
+                        "/png/" .
+                        "/$sqSize" . (strtoupper($filename) === $filename ? 'white' : 'black') .
+                        "/$filename.png"
                     );
                     $chessboard->paste($image, new Point($x, $y));
                 }
