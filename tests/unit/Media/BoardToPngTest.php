@@ -49,6 +49,25 @@ class BoardToPngTest extends AbstractUnitTestCase
     /**
      * @test
      */
+    public function output_01_kaufman_staunty()
+    {
+        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
+        $filename = (new BoardToPng(
+            $board,
+            $flip = false,
+            $size = 480,
+            $pieceSet = BoardToPng::PIECE_SET_STAUNTY
+        ))->output(self::OUTPUT_FOLDER);
+
+        $this->assertSame(
+            sha1_file(self::OUTPUT_FOLDER.'/'.$filename),
+            sha1_file(self::DATA_FOLDER.'/img/01_kaufman_staunty.png')
+        );
+    }
+
+    /**
+     * @test
+     */
     public function output_01_kaufman_flip()
     {
         $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
