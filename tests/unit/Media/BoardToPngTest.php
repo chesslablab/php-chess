@@ -49,6 +49,25 @@ class BoardToPngTest extends AbstractUnitTestCase
     /**
      * @test
      */
+    public function output_01_kaufman_staunty()
+    {
+        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
+        $filename = (new BoardToPng(
+            $board,
+            $flip = false,
+            $size = 480,
+            $pieceSet = BoardToPng::PIECE_SET_STAUNTY
+        ))->output(self::OUTPUT_FOLDER);
+
+        $this->assertSame(
+            sha1_file(self::OUTPUT_FOLDER.'/'.$filename),
+            sha1_file(self::DATA_FOLDER.'/img/01_kaufman_staunty.png')
+        );
+    }
+
+    /**
+     * @test
+     */
     public function output_01_kaufman_flip()
     {
         $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
@@ -93,21 +112,21 @@ class BoardToPngTest extends AbstractUnitTestCase
     /**
      * @test
      */
-    public function output_start_capablanca()
+    public function output_capablanca_start()
     {
         $board = new CapablancaBoard();
         $filename = (new BoardToPng($board))->output(self::OUTPUT_FOLDER);
 
         $this->assertSame(
             sha1_file(self::OUTPUT_FOLDER.'/'.$filename),
-            sha1_file(self::DATA_FOLDER.'/img/start_capablanca.png')
+            sha1_file(self::DATA_FOLDER.'/img/capablanca_start.png')
         );
     }
 
     /**
      * @test
      */
-    public function output_capablanca_Nj3_e5___Ci6_O_O()
+    public function output_capablanca_Nj3__O_O()
     {
         $board = new CapablancaBoard();
         $board->play('w', 'Nj3');
@@ -123,14 +142,14 @@ class BoardToPngTest extends AbstractUnitTestCase
 
         $this->assertSame(
             sha1_file(self::OUTPUT_FOLDER.'/'.$filename),
-            sha1_file(self::DATA_FOLDER.'/img/Nj3_e5___capablanca.png')
+            sha1_file(self::DATA_FOLDER.'/img/capablanca_Nj3__O_O.png')
         );
     }
 
     /**
      * @test
      */
-    public function output_capablanca_f4_f5_Nh3_Nc6_flip()
+    public function output_capablanca_f4__Nc6_flip()
     {
         $board = new CapablancaBoard();
         $board->play('w', 'f4');
@@ -141,14 +160,14 @@ class BoardToPngTest extends AbstractUnitTestCase
 
         $this->assertSame(
             sha1_file(self::OUTPUT_FOLDER.'/'.$filename),
-            sha1_file(self::DATA_FOLDER.'/img/f4_f5_Nh3_Nc6_flip___capablanca.png')
+            sha1_file(self::DATA_FOLDER.'/img/capablanca_f4__Nc6_flip.png')
         );
     }
 
     /**
      * @test
      */
-    public function output_capablanca_f4_f5___e3_O_O_O_flip()
+    public function output_capablanca_f4__O_O_O_flip()
     {
         $board = new CapablancaBoard();
         $board->play('w', 'f4');
@@ -171,7 +190,7 @@ class BoardToPngTest extends AbstractUnitTestCase
 
         $this->assertSame(
             sha1_file(self::OUTPUT_FOLDER.'/'.$filename),
-            sha1_file(self::DATA_FOLDER.'/img/f4_f5___e3_O_O_O_flip___capablanca.png')
+            sha1_file(self::DATA_FOLDER.'/img/capablanca_f4__O_O_O_flip.png')
         );
     }
 }

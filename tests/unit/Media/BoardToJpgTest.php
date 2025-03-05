@@ -49,6 +49,25 @@ class BoardToJpgTest extends AbstractUnitTestCase
     /**
      * @test
      */
+    public function output_01_kaufman_staunty()
+    {
+        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
+        $filename = (new BoardToJpg(
+            $board,
+            $flip = false,
+            $size = 480,
+            $pieceSet = BoardToJpg::PIECE_SET_STAUNTY
+        ))->output(self::OUTPUT_FOLDER);
+
+        $this->assertSame(
+            sha1_file(self::OUTPUT_FOLDER.'/'.$filename),
+            sha1_file(self::DATA_FOLDER.'/img/01_kaufman_staunty.jpg')
+        );
+    }
+
+    /**
+     * @test
+     */
     public function output_01_kaufman_flip()
     {
         $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
@@ -57,6 +76,25 @@ class BoardToJpgTest extends AbstractUnitTestCase
         $this->assertSame(
             sha1_file(self::OUTPUT_FOLDER.'/'.$filename),
             sha1_file(self::DATA_FOLDER.'/img/01_kaufman_flip.jpg')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function output_01_kaufman_flip_staunty()
+    {
+        $board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
+        $filename = (new BoardToJpg(
+            $board,
+            $flip = true,
+            $size = 480,
+            $pieceSet = BoardToJpg::PIECE_SET_STAUNTY
+        ))->output(self::OUTPUT_FOLDER);
+
+        $this->assertSame(
+            sha1_file(self::OUTPUT_FOLDER.'/'.$filename),
+            sha1_file(self::DATA_FOLDER.'/img/01_kaufman_flip_staunty.jpg')
         );
     }
 
@@ -93,21 +131,21 @@ class BoardToJpgTest extends AbstractUnitTestCase
     /**
      * @test
      */
-    public function output_start_capablanca()
+    public function output_capablanca_start()
     {
         $board = new CapablancaBoard();
         $filename = (new BoardToJpg($board))->output(self::OUTPUT_FOLDER);
 
         $this->assertSame(
             sha1_file(self::OUTPUT_FOLDER.'/'.$filename),
-            sha1_file(self::DATA_FOLDER.'/img/start_capablanca.jpg')
+            sha1_file(self::DATA_FOLDER.'/img/capablanca_start.jpg')
         );
     }
 
     /**
      * @test
      */
-    public function output_capablanca_Nj3_e5___Ci6_O_O()
+    public function output_capablanca_Nj3__O_O()
     {
         $board = new CapablancaBoard();
         $board->play('w', 'Nj3');
@@ -123,7 +161,36 @@ class BoardToJpgTest extends AbstractUnitTestCase
 
         $this->assertSame(
             sha1_file(self::OUTPUT_FOLDER.'/'.$filename),
-            sha1_file(self::DATA_FOLDER.'/img/Nj3_e5___capablanca.jpg')
+            sha1_file(self::DATA_FOLDER.'/img/capablanca_Nj3__O_O.jpg')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function output_capablanca_Nj3_e5___Ci6_O_O_staunty()
+    {
+        $board = new CapablancaBoard();
+        $board->play('w', 'Nj3');
+        $board->play('b', 'e5');
+        $board->play('w', 'Ci3');
+        $board->play('b', 'Nc6');
+        $board->play('w', 'h3');
+        $board->play('b', 'b6');
+        $board->play('w', 'Bh2');
+        $board->play('b', 'Ci6');
+        $board->play('w', 'O-O');
+        
+        $filename = (new BoardToJpg(
+            $board,
+            $flip = false,
+            $size = 480,
+            $pieceSet = BoardToJpg::PIECE_SET_STAUNTY
+        ))->output(self::OUTPUT_FOLDER);
+
+        $this->assertSame(
+            sha1_file(self::OUTPUT_FOLDER.'/'.$filename),
+            sha1_file(self::DATA_FOLDER.'/img/capablanca_Nj3__O_O_staunty.jpg')
         );
     }
 }
