@@ -35,7 +35,7 @@ class BoardToMp4Test extends AbstractUnitTestCase
             $r = 2, 
             $fps = 2, 
             $crf = 36, 
-            $pixFmt = 'monow'
+            $pixFmt = 'gray'
         );
 
         $this->assertTrue(file_exists(self::OUTPUT_FOLDER . '/' . $filename));
