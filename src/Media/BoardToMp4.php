@@ -146,7 +146,6 @@ class BoardToMp4
             -vf fps=$fps
             -vcodec libx265
             -crf $crf
-            -x265-params threads=6
             -pix_fmt $pixFmt {$filepath}/{$filename}";
             
         exec(escapeshellcmd($cmd));
