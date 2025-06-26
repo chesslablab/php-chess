@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://chesslablab.github.io/php-chess/formats/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Formats - PHP Chess</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">PHP Chess</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../getting-started/" class="nav-link">Getting Started</a>
+                            </li>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Formats</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../heuristics/" class="nav-link">Heuristics</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../tutor/" class="nav-link">Tutor</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../play-chess/" class="nav-link">Play Chess</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../pgn-parsing/" class="nav-link">PGN Parsing</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../getting-started/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../heuristics/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#formats" class="nav-link">Formats</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#fen-to-board" class="nav-link">FEN to Board</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#board-to-png-image" class="nav-link">Board to PNG Image</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#board-to-jpg" class="nav-link">Board to JPG</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#board-to-mp4" class="nav-link">Board to MP4</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#image-to-fen" class="nav-link">Image to FEN</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="formats">Formats</h1>
+<h2 id="fen-to-board">FEN to Board</h2>
+<p>✨ FEN stands for Forsyth-Edwards Notation and is the standard way for describing chess positions using text strings.</p>
+<p>The factory of chessboards allows to convert a FEN string into a chessboard object for further processing.</p>
+<pre><code class="language-php">use Chess\Variant\Classical\FenToBoardFactory;
+
+$board = FenToBoardFactory::create('rnbqkb1r/pp2pppp/3p1n2/8/3NP3/8/PPP2PPP/RNBQKB1R w KQkq -');
+
+$board-&gt;play('w', 'Nc3');
+$board-&gt;play('b', 'Nc6');
+
+echo $board-&gt;toFen();
+</code></pre>
+<pre><code class="language-text">r1bqkb1r/pp2pppp/2np1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq -
+</code></pre>
+<p>In this example the game history contains two moves only.</p>
+<pre><code class="language-php">var_dump($board-&gt;history);
+</code></pre>
+<pre><code class="language-text">array(2) {
+  [0]=&gt;
+  array(6) {
+    [&quot;pgn&quot;]=&gt;
+    string(3) &quot;Nc3&quot;
+    [&quot;color&quot;]=&gt;
+    string(1) &quot;w&quot;
+    [&quot;id&quot;]=&gt;
+    string(1) &quot;N&quot;
+    [&quot;from&quot;]=&gt;
+    string(2) &quot;b1&quot;
+    [&quot;to&quot;]=&gt;
+    string(2) &quot;c3&quot;
+    [&quot;fen&quot;]=&gt;
+    string(59) &quot;rnbqkb1r/pp2pppp/3p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R b KQkq -&quot;
+  }
+  [1]=&gt;
+  array(6) {
+    [&quot;pgn&quot;]=&gt;
+    string(3) &quot;Nc6&quot;
+    [&quot;color&quot;]=&gt;
+    string(1) &quot;b&quot;
+    [&quot;id&quot;]=&gt;
+    string(1) &quot;N&quot;
+    [&quot;from&quot;]=&gt;
+    string(2) &quot;b8&quot;
+    [&quot;to&quot;]=&gt;
+    string(2) &quot;c6&quot;
+    [&quot;fen&quot;]=&gt;
+    string(60) &quot;r1bqkb1r/pp2pppp/2np1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq -&quot;
+  }
+}
+</code></pre>
+<p>The initial FEN string can be accessed as shown below.</p>
+<pre><code class="language-php">echo $board-&gt;startFen;
+</code></pre>
+<pre><code class="language-text">rnbqkb1r/pp2pppp/3p1n2/8/3NP3/8/PPP2PPP/RNBQKB1R w KQkq -
+</code></pre>
+<p>This is how to get LAN formatted moves out of the history array.</p>
+<pre><code class="language-php">$last = end($board-&gt;history);
+
+$lan = $last['from'] . $last['to'];
+
+echo $lan;
+</code></pre>
+<pre><code class="language-text">b8c6
+</code></pre>
+<h2 id="board-to-png-image">Board to PNG Image</h2>
+<p>✨ PNG stands for Portable Network Graphics and is a widely used format for image files. Not to be confused with PGN, the text-based file format to annotate chess games.</p>
+<p><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Media/BoardToPngTest.php">Chess\Media\BoardToPng</a> converts a chess board object to a PNG image.</p>
+<pre><code class="language-php">use Chess\Media\BoardToPng;
+use Chess\Variant\Classical\FenToBoardFactory;
+
+$board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
+
+$filename = (new BoardToPng($board, $flip = true))-&gt;output(__DIR__);
+</code></pre>
+<p><img alt="Figure 1" src="https://raw.githubusercontent.com/chesslablab/php-chess/main/docs/formats_01.png" /></p>
+<p>Try this thing! Share a puzzling chess position with friends for further study.</p>
+<h2 id="board-to-jpg">Board to JPG</h2>
+<p><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Media/BoardToJpgTest.php">Chess\Media\BoardToJpg</a> converts a chess board object to a JPG image.</p>
+<pre><code class="language-php">use Chess\Media\BoardToJpg;
+use Chess\Variant\Classical\FenToBoardFactory;
+
+$board = FenToBoardFactory::create('1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K w - -');
+
+$filename = (new BoardToJpg($board, $flip = true))-&gt;output(__DIR__);
+</code></pre>
+<h2 id="board-to-mp4">Board to MP4</h2>
+<p>✨ Text-based PGN movetexts can be easily converted to MP4, a widely-used video format which comes in handy for pausing the games.</p>
+<p><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Media/BoardToMp4Test.php">Chess\Media\BoardToMp4</a> allows to convert a chess board object to an MP4 video.</p>
+<pre><code class="language-php">use Chess\Media\BoardToMp4;
+use Chess\Variant\Classical\Board;
+
+$movetext = '1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.e4 g6 7.Nf3 Bg7';
+
+$board = new Board();
+
+$filename = (new BoardToMp4(
+    $movetext,
+    $board,
+    $flip = false
+))-&gt;output(
+    $filepath = __DIR__,
+    $filename = '',
+    $r = 2,
+    $fps = 2,
+    $crf = 28,
+    $pixFmt = 'yuv420p'
+);
+</code></pre>
+<p>FFmpeg is used under the hood to handle video with parameters that can be changed in the <code>output()</code> method:</p>
+<pre><code class="language-php">$filename = (new BoardToMp4(
+    $movetext,
+    $board,
+    $flip = false
+))-&gt;output(
+    $filepath = __DIR__,
+    $filename = '',
+    $r = 2,
+    $fps = 2,
+    $crf = 36,
+    $pixFmt = 'gray'
+);
+</code></pre>
+<h2 id="image-to-fen">Image to FEN</h2>
+<p>✨ A chess piece image recognizer has been created in the <a href="https://github.com/chesslablab/perception">chesslablab/perception</a> repository with the help of a multilayer neural network.</p>
+<p><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Media/ImgToPiecePlacementTest.php">Chess\Media\ImgToPiecePlacement</a> relies on this recognizer to convert a GD image into a piece placement in FEN format.</p>
+<pre><code class="language-php">use Chess\Media\ImgToPiecePlacement;
+
+$image = imagecreatefrompng(__DIR__ . '/01_kaufman.png');
+
+$prediction = (new ImgToPiecePlacement($image))-&gt;predict();
+
+echo $prediction;
+</code></pre>
+<pre><code class="language-text">1rbq1rk1/p1b1nppp/1p2p3/8/1B1pN3/P2B4/1P3PPP/2RQ1R1K
+</code></pre>
+<p>For optimal use, it is recommended to make predictions on chessboard images using classical chess pieces like the Kaufman test attached below.</p>
+<p><img alt="Figure 2" src="https://raw.githubusercontent.com/chesslablab/php-chess/main/docs/formats_02.png" /></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://chesslablab.github.io/php-chess/pgn-parsing/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>PGN Parsing - PHP Chess</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">PHP Chess</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../getting-started/" class="nav-link">Getting Started</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../formats/" class="nav-link">Formats</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../heuristics/" class="nav-link">Heuristics</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../tutor/" class="nav-link">Tutor</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../play-chess/" class="nav-link">Play Chess</a>
+                            </li>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">PGN Parsing</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../play-chess/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#pgn-parsing" class="nav-link">PGN Parsing</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#syntax-validation" class="nav-link">Syntax Validation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#semantic-validation" class="nav-link">Semantic Validation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="pgn-parsing">PGN Parsing</h1>
+<p>✨ The World Wide Web is bursting with Portable Game Notation (PGN) files that can be parsed for chess apps to use. Also you may want to publish your collection of games on your ChesslaBlab website. The thing though with such a huge amount of information is that it may not be always accurate.</p>
+<p>However, PHP Chess provides syntax and semantic validation for chess games to make sure everything is working as expected.</p>
+<h2 id="syntax-validation">Syntax Validation</h2>
+<p>With syntax validation, the PGN parser checks that the games in the file don't contain any typos and are correctly formatted, following the syntax guidelines defined in the PGN specification.</p>
+<p>The following example shows how to validate the syntax of a file containing 3 games by Anand.</p>
+<pre><code class="language-text">[Event &quot;WCh 2013&quot;]
+[Site &quot;Chennai IND&quot;]
+[Date &quot;2013.11.12&quot;]
+[Round &quot;3&quot;]
+[White &quot;Carlsen,M&quot;]
+[Black &quot;Anand,V&quot;]
+[Result &quot;1/2-1/2&quot;]
+[WhiteElo &quot;2870&quot;]
+[BlackElo &quot;2775&quot;]
+[ECO &quot;A07&quot;]
+
+1.Nf3 d5 2.g3 g6 3.c4 dxc4 4.Qa4+ Nc6 5.Bg2 Bg7 6.Nc3 e5 7.Qxc4 Nge7 8.O-O O-O
+9.d3 h6 10.Bd2 Nd4 11.Nxd4 exd4 12.Ne4 c6 13.Bb4 Be6 14.Qc1 Bd5 15.a4 b6
+16.Bxe7 Qxe7 17.a5 Rab8 18.Re1 Rfc8 19.axb6 axb6 20.Qf4 Rd8 21.h4 Kh7 22.Nd2 Be5
+23.Qg4 h5 24.Qh3 Be6 25.Qh1 c5 26.Ne4 Kg7 27.Ng5 b5 28.e3 dxe3 29.Rxe3 Bd4
+30.Re2 c4 31.Nxe6+ fxe6 32.Be4 cxd3 33.Rd2 Qb4 34.Rad1 Bxb2 35.Qf3 Bf6 36.Rxd3 Rxd3
+37.Rxd3 Rd8 38.Rxd8 Bxd8 39.Bd3 Qd4 40.Bxb5 Qf6 41.Qb7+ Be7 42.Kg2 g5 43.hxg5 Qxg5
+44.Bc4 h4 45.Qc7 hxg3 46.Qxg3 e5 47.Kf3 Qxg3+ 48.fxg3 Bc5 49.Ke4 Bd4 50.Kf5 Bf2
+51.Kxe5 Bxg3+  1/2-1/2
+
+[Event &quot;43rd Olympiad 2018&quot;]
+[Site &quot;Batumi GEO&quot;]
+[Date &quot;2018.09.26&quot;]
+[Round &quot;3.20&quot;]
+[White &quot;Hansen,Eric&quot;]
+[Black &quot;Anand,V&quot;]
+[Result &quot;0-1&quot;]
+[WhiteElo &quot;2629&quot;]
+[BlackElo &quot;2771&quot;]
+[ECO &quot;C60&quot;]
+
+1.e4 e5 2.Nf3 Nc6 3.Bb5 g6 4.c3 a6 5.Ba4 Bg7 6.d4 b5 7.Bb3 exd4 8.cxd4 d6
+9.h3 Nf6 10.O-O O-O 11.Re1 Bb7 12.Nbd2 Nb4 13.Nf1 c5 14.a3 Nc6 15.d5 Nd4
+16.Nxd4 cxd4 17.Qxd4 Nxd5 18.Qd3 Nb6 19.Rd1 Rc8 20.Ng3 Nc4 21.Rb1 h5 22.f3 Qb6+
+23.Kh1 d5 24.exd5 Rfd8 25.Bf4 Qf6 26.Bc1 Rxd5 27.Qe2 Re5 28.Qf2 Rce8 29.Bxc4 bxc4
+30.Nf1 Be4 31.Ra1 Bd3 32.Ne3 Qb6 33.Re1 R5e6  0-1
+
+[Event &quot;ARM-ROW Match&quot;]
+[Site &quot;Moscow RUS&quot;]
+[Date &quot;2004.06.14&quot;]
+[Round &quot;5&quot;]
+[White &quot;Leko,P&quot;]
+[Black &quot;Anand,V&quot;]
+[Result &quot;1-0&quot;]
+[WhiteElo &quot;2741&quot;]
+[BlackElo &quot;2774&quot;]
+[ECO &quot;B48&quot;]
+
+1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 Qc7 5.Nc3 e6 6.Be3 a6 7.Qd2 Nf6 8.O-O-O Bb4
+9.f3 Na5 10.Kb1 Bxc3 11.bxc3 b5 12.Bf4 Qb6 13.Nb3 Nc4 14.Qd4 d5 15.Bxc4 Qxd4
+16.cxd4 dxc4 17.Na5 Nd7 18.Bc7 O-O 19.d5 exd5 20.exd5 Nf6 21.Rhe1 Bd7 22.Be5 Rfe8
+23.Kb2 Rac8 24.Bxf6 gxf6 25.Kc3 Kf8 26.Kd4 c3 27.Rxe8+ Rxe8 28.Kxc3 Rc8+
+29.Kb3 Ke7 30.Rd2 Kd6 31.Kb4 Rb8 32.c3 f5 33.a3 f6 34.Rd4 h5 35.g3 Be8 36.Nc6 Rc8
+37.Na5 Rb8 38.Nc6 Rc8 39.Ka5 Bxc6 40.dxc6+ Kxc6 41.Rh4 Kd6 42.Kb4 Rh8 43.c4 bxc4
+44.Kxc4 Ke6 45.Kb4 Rb8+ 46.Ka4 Rd8 47.Ka5 Rd2 48.a4 f4 49.gxf4 Rd6 50.Rxh5 Rd4
+51.Rc5 Rxf4 52.Rc3 Rh4 53.Rb3 Kd7 54.Rb4 Rxh2 55.Kxa6 Rc2 56.Kb6 Rc6+ 57.Kb5 Re6
+58.Re4 Rd6 59.Rc4 Rd5+ 60.Kb4 Rd3 61.f4 Rd1 62.a5 Rb1+ 63.Ka4 Ra1+ 64.Kb5 Rb1+
+65.Rb4 Rf1 66.Kb6 Kc8 67.Kc6 Re1 68.Kd6  1-0
+</code></pre>
+<pre><code class="language-php">use Chess\PgnParser;
+use Chess\Variant\Classical\PGN\Move;
+
+$parser = new PgnParser(new Move(), __DIR__ . '/example.pgn');
+
+$parser-&gt;onValidation(function(array $tags, string $movetext) {
+    var_dump($tags);
+    var_dump($movetext);
+});
+
+$parser-&gt;parse();
+
+$result = $parser-&gt;getResult();
+
+var_dump($result);
+</code></pre>
+<p>If a game is correct, both the tags and the movetext are returned on successful validation.</p>
+<pre><code class="language-text">array(10) {
+  [&quot;Event&quot;]=&gt;
+  string(8) &quot;WCh 2013&quot;
+  [&quot;Site&quot;]=&gt;
+  string(11) &quot;Chennai IND&quot;
+  [&quot;Date&quot;]=&gt;
+  string(10) &quot;2013.11.12&quot;
+  [&quot;Round&quot;]=&gt;
+  string(1) &quot;3&quot;
+  [&quot;White&quot;]=&gt;
+  string(9) &quot;Carlsen,M&quot;
+  [&quot;Black&quot;]=&gt;
+  string(7) &quot;Anand,V&quot;
+  [&quot;Result&quot;]=&gt;
+  string(7) &quot;1/2-1/2&quot;
+  [&quot;WhiteElo&quot;]=&gt;
+  string(4) &quot;2870&quot;
+  [&quot;BlackElo&quot;]=&gt;
+  string(4) &quot;2775&quot;
+  [&quot;ECO&quot;]=&gt;
+  string(3) &quot;A07&quot;
+}
+string(568) &quot;1.Nf3 d5 2.g3 g6 3.c4 dxc4 4.Qa4+ Nc6 5.Bg2 Bg7 6.Nc3 e5 7.Qxc4 Nge7 8.O-O O-O 9.d3 h6 10.Bd2 Nd4 11.Nxd4 exd4 12.Ne4 c6 13.Bb4 Be6 14.Qc1 Bd5 15.a4 b6 16.Bxe7 Qxe7 17.a5 Rab8 18.Re1 Rfc8 19.axb6 axb6 20.Qf4 Rd8 21.h4 Kh7 22.Nd2 Be5 23.Qg4 h5 24.Qh3 Be6 25.Qh1 c5 26.Ne4 Kg7 27.Ng5 b5 28.e3 dxe3 29.Rxe3 Bd4 30.Re2 c4 31.Nxe6+ fxe6 32.Be4 cxd3 33.Rd2 Qb4 34.Rad1 Bxb2 35.Qf3 Bf6 36.Rxd3 Rxd3 37.Rxd3 Rd8 38.Rxd8 Bxd8 39.Bd3 Qd4 40.Bxb5 Qf6 41.Qb7+ Be7 42.Kg2 g5 43.hxg5 Qxg5 44.Bc4 h4 45.Qc7 hxg3 46.Qxg3 e5 47.Kf3 Qxg3+ 48.fxg3 Bc5 49.Ke4 Bd4 50.Kf5 Bf2 51.Kxe5 Bxg3+&quot;
+array(10) {
+  [&quot;Event&quot;]=&gt;
+  string(18) &quot;43rd Olympiad 2018&quot;
+  [&quot;Site&quot;]=&gt;
+  string(10) &quot;Batumi GEO&quot;
+  [&quot;Date&quot;]=&gt;
+  string(10) &quot;2018.09.26&quot;
+  [&quot;Round&quot;]=&gt;
+  string(4) &quot;3.20&quot;
+  [&quot;White&quot;]=&gt;
+  string(11) &quot;Hansen,Eric&quot;
+  [&quot;Black&quot;]=&gt;
+  string(7) &quot;Anand,V&quot;
+  [&quot;Result&quot;]=&gt;
+  string(3) &quot;0-1&quot;
+  [&quot;WhiteElo&quot;]=&gt;
+  string(4) &quot;2629&quot;
+  [&quot;BlackElo&quot;]=&gt;
+  string(4) &quot;2771&quot;
+  [&quot;ECO&quot;]=&gt;
+  string(3) &quot;C60&quot;
+}
+string(353) &quot;1.e4 e5 2.Nf3 Nc6 3.Bb5 g6 4.c3 a6 5.Ba4 Bg7 6.d4 b5 7.Bb3 exd4 8.cxd4 d6 9.h3 Nf6 10.O-O O-O 11.Re1 Bb7 12.Nbd2 Nb4 13.Nf1 c5 14.a3 Nc6 15.d5 Nd4 16.Nxd4 cxd4 17.Qxd4 Nxd5 18.Qd3 Nb6 19.Rd1 Rc8 20.Ng3 Nc4 21.Rb1 h5 22.f3 Qb6+ 23.Kh1 d5 24.exd5 Rfd8 25.Bf4 Qf6 26.Bc1 Rxd5 27.Qe2 Re5 28.Qf2 Rce8 29.Bxc4 bxc4 30.Nf1 Be4 31.Ra1 Bd3 32.Ne3 Qb6 33.Re1 R5e6&quot;
+array(10) {
+  [&quot;Event&quot;]=&gt;
+  string(13) &quot;ARM-ROW Match&quot;
+  [&quot;Site&quot;]=&gt;
+  string(10) &quot;Moscow RUS&quot;
+  [&quot;Date&quot;]=&gt;
+  string(10) &quot;2004.06.14&quot;
+  [&quot;Round&quot;]=&gt;
+  string(1) &quot;5&quot;
+  [&quot;White&quot;]=&gt;
+  string(6) &quot;Leko,P&quot;
+  [&quot;Black&quot;]=&gt;
+  string(7) &quot;Anand,V&quot;
+  [&quot;Result&quot;]=&gt;
+  string(3) &quot;1-0&quot;
+  [&quot;WhiteElo&quot;]=&gt;
+  string(4) &quot;2741&quot;
+  [&quot;BlackElo&quot;]=&gt;
+  string(4) &quot;2774&quot;
+  [&quot;ECO&quot;]=&gt;
+  string(3) &quot;B48&quot;
+}
+string(752) &quot;1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 Qc7 5.Nc3 e6 6.Be3 a6 7.Qd2 Nf6 8.O-O-O Bb4 9.f3 Na5 10.Kb1 Bxc3 11.bxc3 b5 12.Bf4 Qb6 13.Nb3 Nc4 14.Qd4 d5 15.Bxc4 Qxd4 16.cxd4 dxc4 17.Na5 Nd7 18.Bc7 O-O 19.d5 exd5 20.exd5 Nf6 21.Rhe1 Bd7 22.Be5 Rfe8 23.Kb2 Rac8 24.Bxf6 gxf6 25.Kc3 Kf8 26.Kd4 c3 27.Rxe8+ Rxe8 28.Kxc3 Rc8+ 29.Kb3 Ke7 30.Rd2 Kd6 31.Kb4 Rb8 32.c3 f5 33.a3 f6 34.Rd4 h5 35.g3 Be8 36.Nc6 Rc8 37.Na5 Rb8 38.Nc6 Rc8 39.Ka5 Bxc6 40.dxc6+ Kxc6 41.Rh4 Kd6 42.Kb4 Rh8 43.c4 bxc4 44.Kxc4 Ke6 45.Kb4 Rb8+ 46.Ka4 Rd8 47.Ka5 Rd2 48.a4 f4 49.gxf4 Rd6 50.Rxh5 Rd4 51.Rc5 Rxf4 52.Rc3 Rh4 53.Rb3 Kd7 54.Rb4 Rxh2 55.Kxa6 Rc2 56.Kb6 Rc6+ 57.Kb5 Re6 58.Re4 Rd6 59.Rc4 Rd5+ 60.Kb4 Rd3 61.f4 Rd1 62.a5 Rb1+ 63.Ka4 Ra1+ 64.Kb5 Rb1+ 65.Rb4 Rf1 66.Kb6 Kc8 67.Kc6 Re1 68.Kd6&quot;
+array(2) {
+  [&quot;total&quot;]=&gt;
+  int(3)
+  [&quot;valid&quot;]=&gt;
+  int(3)
+}
+</code></pre>
+<p>Syntax validation is required when loading hundreds of thousands of games into a database with the precondition that the games have probably been validated. This is the approach followed in the <a href="https://github.com/chesslablab/chess-data/blob/main/cli/seed/games.php">cli/seed/games.php</a> script.</p>
+<h2 id="semantic-validation">Semantic Validation</h2>
+<p>Semantics deal with the meaning assigned to the movetext checking that the sequence of moves can be played as per the rules of the variant in use.</p>
+<p>Let's now validate the semantics of the PGN file above. This time, though, an error has been added to the first game to see what will happen.</p>
+<pre><code class="language-text">[Event &quot;WCh 2013&quot;]
+[Site &quot;Chennai IND&quot;]
+[Date &quot;2013.11.12&quot;]
+[Round &quot;3&quot;]
+[White &quot;Carlsen,M&quot;]
+[Black &quot;Anand,V&quot;]
+[Result &quot;1/2-1/2&quot;]
+[WhiteElo &quot;2870&quot;]
+[BlackElo &quot;2775&quot;]
+[ECO &quot;A07&quot;]
+
+1.Nf3 Nf3 2.g3 g6 3.c4 dxc4 4.Qa4+ Nc6 5.Bg2 Bg7 6.Nc3 e5 7.Qxc4 Nge7 8.O-O O-O
+9.d3 h6 10.Bd2 Nd4 11.Nxd4 exd4 12.Ne4 c6 13.Bb4 Be6 14.Qc1 Bd5 15.a4 b6
+16.Bxe7 Qxe7 17.a5 Rab8 18.Re1 Rfc8 19.axb6 axb6 20.Qf4 Rd8 21.h4 Kh7 22.Nd2 Be5
+23.Qg4 h5 24.Qh3 Be6 25.Qh1 c5 26.Ne4 Kg7 27.Ng5 b5 28.e3 dxe3 29.Rxe3 Bd4
+30.Re2 c4 31.Nxe6+ fxe6 32.Be4 cxd3 33.Rd2 Qb4 34.Rad1 Bxb2 35.Qf3 Bf6 36.Rxd3 Rxd3
+37.Rxd3 Rd8 38.Rxd8 Bxd8 39.Bd3 Qd4 40.Bxb5 Qf6 41.Qb7+ Be7 42.Kg2 g5 43.hxg5 Qxg5
+44.Bc4 h4 45.Qc7 hxg3 46.Qxg3 e5 47.Kf3 Qxg3+ 48.fxg3 Bc5 49.Ke4 Bd4 50.Kf5 Bf2
+51.Kxe5 Bxg3+  1/2-1/2
+</code></pre>
+<p>As you can see in this example, the first move <code>1.Nf3 Nf3</code> is incorrect, and for this reason it won't be dumped into the console.</p>
+<pre><code class="language-php">use Chess\PgnParser;
+use Chess\Exception\UnknownNotationException;
+use Chess\Play\SanPlay;
+use Chess\Variant\Classical\FenToBoardFactory;
+use Chess\Variant\Classical\PGN\Move;
+
+
+$parser = new PgnParser(new Move(), __DIR__ . '/example.pgn');
+
+$parser-&gt;onValidation(function(array $tags, string $movetext) {
+    try {
+        (new SanPlay($movetext, FenToBoardFactory::create()))-&gt;validate();
+        var_dump($tags);
+        var_dump($movetext);
+    } catch (UnknownNotationException $e) {
+    }
+});
+
+$parser-&gt;parse();
+
+$result = $parser-&gt;getResult();
+
+var_dump($result);
+</code></pre>
+<p><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Play/SanPlayTest.php">Chess\Play\SanPlay</a> allows to play a bunch of moves at once throwing an exception of type <code>Chess\Exception\UnknownNotationException</code> if a move cannot be made.</p>
+<pre><code class="language-text">array(10) {
+  [&quot;Event&quot;]=&gt;
+  string(18) &quot;43rd Olympiad 2018&quot;
+  [&quot;Site&quot;]=&gt;
+  string(10) &quot;Batumi GEO&quot;
+  [&quot;Date&quot;]=&gt;
+  string(10) &quot;2018.09.26&quot;
+  [&quot;Round&quot;]=&gt;
+  string(4) &quot;3.20&quot;
+  [&quot;White&quot;]=&gt;
+  string(11) &quot;Hansen,Eric&quot;
+  [&quot;Black&quot;]=&gt;
+  string(7) &quot;Anand,V&quot;
+  [&quot;Result&quot;]=&gt;
+  string(3) &quot;0-1&quot;
+  [&quot;WhiteElo&quot;]=&gt;
+  string(4) &quot;2629&quot;
+  [&quot;BlackElo&quot;]=&gt;
+  string(4) &quot;2771&quot;
+  [&quot;ECO&quot;]=&gt;
+  string(3) &quot;C60&quot;
+}
+string(353) &quot;1.e4 e5 2.Nf3 Nc6 3.Bb5 g6 4.c3 a6 5.Ba4 Bg7 6.d4 b5 7.Bb3 exd4 8.cxd4 d6 9.h3 Nf6 10.O-O O-O 11.Re1 Bb7 12.Nbd2 Nb4 13.Nf1 c5 14.a3 Nc6 15.d5 Nd4 16.Nxd4 cxd4 17.Qxd4 Nxd5 18.Qd3 Nb6 19.Rd1 Rc8 20.Ng3 Nc4 21.Rb1 h5 22.f3 Qb6+ 23.Kh1 d5 24.exd5 Rfd8 25.Bf4 Qf6 26.Bc1 Rxd5 27.Qe2 Re5 28.Qf2 Rce8 29.Bxc4 bxc4 30.Nf1 Be4 31.Ra1 Bd3 32.Ne3 Qb6 33.Re1 R5e6&quot;
+array(10) {
+  [&quot;Event&quot;]=&gt;
+  string(13) &quot;ARM-ROW Match&quot;
+  [&quot;Site&quot;]=&gt;
+  string(10) &quot;Moscow RUS&quot;
+  [&quot;Date&quot;]=&gt;
+  string(10) &quot;2004.06.14&quot;
+  [&quot;Round&quot;]=&gt;
+  string(1) &quot;5&quot;
+  [&quot;White&quot;]=&gt;
+  string(6) &quot;Leko,P&quot;
+  [&quot;Black&quot;]=&gt;
+  string(7) &quot;Anand,V&quot;
+  [&quot;Result&quot;]=&gt;
+  string(3) &quot;1-0&quot;
+  [&quot;WhiteElo&quot;]=&gt;
+  string(4) &quot;2741&quot;
+  [&quot;BlackElo&quot;]=&gt;
+  string(4) &quot;2774&quot;
+  [&quot;ECO&quot;]=&gt;
+  string(3) &quot;B48&quot;
+}
+string(752) &quot;1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 Qc7 5.Nc3 e6 6.Be3 a6 7.Qd2 Nf6 8.O-O-O Bb4 9.f3 Na5 10.Kb1 Bxc3 11.bxc3 b5 12.Bf4 Qb6 13.Nb3 Nc4 14.Qd4 d5 15.Bxc4 Qxd4 16.cxd4 dxc4 17.Na5 Nd7 18.Bc7 O-O 19.d5 exd5 20.exd5 Nf6 21.Rhe1 Bd7 22.Be5 Rfe8 23.Kb2 Rac8 24.Bxf6 gxf6 25.Kc3 Kf8 26.Kd4 c3 27.Rxe8+ Rxe8 28.Kxc3 Rc8+ 29.Kb3 Ke7 30.Rd2 Kd6 31.Kb4 Rb8 32.c3 f5 33.a3 f6 34.Rd4 h5 35.g3 Be8 36.Nc6 Rc8 37.Na5 Rb8 38.Nc6 Rc8 39.Ka5 Bxc6 40.dxc6+ Kxc6 41.Rh4 Kd6 42.Kb4 Rh8 43.c4 bxc4 44.Kxc4 Ke6 45.Kb4 Rb8+ 46.Ka4 Rd8 47.Ka5 Rd2 48.a4 f4 49.gxf4 Rd6 50.Rxh5 Rd4 51.Rc5 Rxf4 52.Rc3 Rh4 53.Rb3 Kd7 54.Rb4 Rxh2 55.Kxa6 Rc2 56.Kb6 Rc6+ 57.Kb5 Re6 58.Re4 Rd6 59.Rc4 Rd5+ 60.Kb4 Rd3 61.f4 Rd1 62.a5 Rb1+ 63.Ka4 Ra1+ 64.Kb5 Rb1+ 65.Rb4 Rf1 66.Kb6 Kc8 67.Kc6 Re1 68.Kd6&quot;
+array(2) {
+  [&quot;total&quot;]=&gt;
+  int(3)
+  [&quot;valid&quot;]=&gt;
+  int(3)
+}
+</code></pre>
+<p>Semantic validation is a must for use cases like developing a chess variant with a TDD strategy like in the <a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Variant/Chess960/BoardTest.php#L21">sample_chess960()</a> test.</p>
+<p>🎉 Let's parse PGN games using PHP Chess.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

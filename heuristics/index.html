@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://chesslablab.github.io/php-chess/heuristics/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Heuristics - PHP Chess</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">PHP Chess</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../getting-started/" class="nav-link">Getting Started</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../formats/" class="nav-link">Formats</a>
+                            </li>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">Heuristics</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../tutor/" class="nav-link">Tutor</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../play-chess/" class="nav-link">Play Chess</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../pgn-parsing/" class="nav-link">PGN Parsing</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../formats/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../tutor/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-light">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#heuristics" class="nav-link">Heuristics</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#evaluate-a-chess-position" class="nav-link">Evaluate a Chess Position</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#plot-the-oscillations-of-a-game" class="nav-link">Plot the Oscillations of a Game</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#extract-chess-data" class="nav-link">Extract Chess Data</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="heuristics">Heuristics</h1>
+<p>✨ If you ask a chess pro why a chess move is good, they'll probably give you a bunch of reasons, many of them intuitive, about why they made that decision.</p>
+<p>It is important to develop your pieces in the opening while trying to control the center of the board at the same time. Castling is an excellent move as long as the king gets safe. Then, in the middlegame space becomes an advantage. And if a complex position can be simplified when you have an advantage, then so much the better. The pawn structure could determine the endgame.</p>
+<p>The list of reasons goes on and on.</p>
+<p>The mathematician Claude Shannon came to the conclusion that there are more chess moves than atoms in the universe. The game is complex and you need to learn how to make decisions to play chess like a pro. Since no human can calculate more than, let's say 30 moves ahead, it's all about thinking in terms of heuristics.</p>
+<p>Heuristics are quick, mental shortcuts that we humans use to make decisions and solve problems in our daily lives. While far from being perfect, heuristics are approximations that help manage cognitive load.</p>
+<p>Listed below are the chess heuristics implemented in PHP Chess.</p>
+<table>
+<thead>
+<tr>
+<th>Heuristic</th>
+<th>Description</th>
+<th>Evaluation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Absolute fork</td>
+<td>A tactic in which a piece attacks multiple pieces at the same time. It is a double attack. A fork involving the enemy king is an absolute fork.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/AbsoluteForkEvalTest.php">Chess\Eval\AbsoluteForkEval</a></td>
+</tr>
+<tr>
+<td>Absolute pin</td>
+<td>A tactic that occurs when a piece is shielding the king, so it cannot move out of the line of attack because the king would be put in check.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/AbsolutePinEvalTest.php">Chess\Eval\AbsolutePinEval</a></td>
+</tr>
+<tr>
+<td>Absolute skewer</td>
+<td>A tactic in which the enemy king is involved. The king is in check, and it has to move out of danger exposing a more valuable piece to capture. Only line pieces (bishops, rooks and queens) can skewer.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/AbsoluteSkewerEvalTest.php">Chess\Eval\AbsoluteSkewerEval</a></td>
+</tr>
+<tr>
+<td>Advanced pawn</td>
+<td>A pawn that is on the fifth rank or higher.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/AdvancedPawnEvalTest.php">Chess\Eval\AdvancedPawnEval</a></td>
+</tr>
+<tr>
+<td>Attack</td>
+<td>If a piece is under threat of being attacked, it means it could be taken after a sequence of captures resulting in a material gain. This indicates a forcing move in that a player is to reply in a certain way. On the next turn, it should be defended by a piece or moved to a safe square. The player with the greater number of material points under attack has an advantage.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/AttackEvalTest.php">Chess\Eval\AttackEval</a></td>
+</tr>
+<tr>
+<td>Backward pawn</td>
+<td>The last pawn protecting other pawns in its chain. It is considered a weakness because it cannot advance safely.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/BackwardPawnEvalTest.php">Chess\Eval\BackwardPawnEval</a></td>
+</tr>
+<tr>
+<td>Bad bishop</td>
+<td>A bishop that is on the same color as most of own pawns.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/BadBishopEvalTest.php">Chess\Eval\BadBishopEval</a></td>
+</tr>
+<tr>
+<td>Bishop outpost</td>
+<td>A bishop on an outpost square is considered a positional advantage because it cannot be attacked by enemy pawns, and as a result, it is often exchanged for another piece.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/BishopOutpostEvalTest.php">Chess\Eval\BishopOutpostEval</a></td>
+</tr>
+<tr>
+<td>Bishop pair</td>
+<td>The player with both bishops may definitely have an advantage, especially in the endgame. Furthermore, two bishops can deliver checkmate.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/BishopPairEvalTest.php">Chess\Eval\BishopPairEval</a></td>
+</tr>
+<tr>
+<td>Center</td>
+<td>It is advantageous to control the central squares as well as to place a piece in the center.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/CenterEvalTest.php">Chess\Eval\CenterEval</a></td>
+</tr>
+<tr>
+<td>Checkability</td>
+<td>Having a king that can be checked is usually considered a disadvantage, and vice versa, it is considered advantageous to have a king that cannot be checked. A checkable king is vulnerable to forcing moves.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/CheckabilityEvalTest.php">Chess\Eval\CheckabilityEval</a></td>
+</tr>
+<tr>
+<td>Connectivity</td>
+<td>The connectivity of the pieces measures how loosely the pieces are.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/ConnectivityEvalTest.php">Chess\Eval\ConnectivityEval</a></td>
+</tr>
+<tr>
+<td>Defense</td>
+<td>This heuristic evaluates the defensive strength of each side by analyzing how the removal of attacking pieces would affect the opponent's protection. A higher score indicates a stronger defensive position.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/DefenseEvalTest.php">Chess\Eval\DefenseEval</a></td>
+</tr>
+<tr>
+<td>Diagonal opposition</td>
+<td>The same as direct opposition, but the two kings are apart from each other diagonally.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/DiagonalOppositionEvalTest.php">Chess\Eval\DiagonalOppositionEval</a></td>
+</tr>
+<tr>
+<td>Direct opposition</td>
+<td>A position in which the kings are facing each other being two squares apart on the same rank or file. In this situation, the player not having to move is said to have the opposition.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/DirectOppositionEvalTest.php">Chess\Eval\DirectOppositionEval</a></td>
+</tr>
+<tr>
+<td>Discovered check</td>
+<td>A discovered check occurs when the opponent's king can be checked by moving a piece out of the way of another.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/DiscoveredCheckEvalTest.php">Chess\Eval\DiscoveredCheckEval</a></td>
+</tr>
+<tr>
+<td>Doubled pawn</td>
+<td>A pawn is doubled if there are two pawns of the same color on the same file.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/DoubledPawnEvalTest.php">Chess\Eval\DoubledPawnEval</a></td>
+</tr>
+<tr>
+<td>Far-advanced pawn</td>
+<td>A pawn that is threatening to promote.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/FarAdvancedPawnEvalTest.php">Chess\Eval\FarAdvancedPawnEval</a></td>
+</tr>
+<tr>
+<td>Flight square</td>
+<td>The safe squares to which the king can move if it is threatened.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/FlightSquareEvalTest.php">Chess\Eval\FlightSquareEval</a></td>
+</tr>
+<tr>
+<td>Isolated pawn</td>
+<td>A pawn without friendly pawns on the adjacent files. Since it cannot be defended by other pawns it is considered a weakness.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/IsolatedPawnEvalTest.php">Chess\Eval\IsolatedPawnEval</a></td>
+</tr>
+<tr>
+<td>King safety</td>
+<td>An unsafe king leads to uncertainty. The probability of unexpected, forced moves will increase as the opponent's pieces get closer to it.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/KingSafetyEvalTest.php">Chess\Eval\KingSafetyEval</a></td>
+</tr>
+<tr>
+<td>Knight outpost</td>
+<td>A knight on an outpost square is considered a positional advantage because it cannot be attacked by enemy pawns, and as a result, it is often exchanged for a bishop.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/KnightOutpostEvalTest.php">Chess\Eval\KnightOutpostEval</a></td>
+</tr>
+<tr>
+<td>Material</td>
+<td>The player with the most material points has an advantage. The relative values of the pieces are assigned this way: 1 point to a pawn, 3.2 points to a knight, 3.33 points to a bishop, 5.1 points to a rook and 8.8 points to a queen.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/MaterialEvalTest.php">Chess\Eval\MaterialEval</a></td>
+</tr>
+<tr>
+<td>Overloading</td>
+<td>A piece that is overloaded with defensive tasks is vulnerable because it can be deflected, meaning it could be forced to leave the square it occupies, typically resulting in an advantage for the opponent.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/OverloadingEvalTest.php">Chess\Eval\OverloadingEval</a></td>
+</tr>
+<tr>
+<td>Passed pawn</td>
+<td>A pawn with no opposing pawns on either the same file or adjacent files to prevent it from being promoted.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/PassedPawnEvalTest.php">Chess\Eval\PassedPawnEval</a></td>
+</tr>
+<tr>
+<td>Pressure</td>
+<td>This is a measure of the number of squares targeted by each player that require special attention. It often indicates the step prior to an attack. The player with the greater number of them has an advantage.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/PressureEvalTest.php">Chess\Eval\PressureEval</a></td>
+</tr>
+<tr>
+<td>Protection</td>
+<td>If a piece is unprotected, it means that there are no other pieces defending it, and therefore it can be taken for free resulting in a material gain. This indicates a forcing move in that a player is to reply in a certain way. On the next turn, it should be defended by a piece or moved to a safe square. The player with the greater number of material points under protection has an advantage.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/ProtectionEvalTest.php">Chess\Eval\ProtectionEval</a></td>
+</tr>
+<tr>
+<td>Relative fork</td>
+<td>A tactic in which a piece attacks multiple pieces at the same time. It is a double attack. A fork not involving the enemy king is a relative fork.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/RelativeForkEvalTest.php">Chess\Eval\RelativeForkEval</a></td>
+</tr>
+<tr>
+<td>Relative pin</td>
+<td>A tactic that occurs when a piece is shielding a more valuable piece, so if it moves out of the line of attack the more valuable piece can be captured resulting in a material gain.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/RelativePinEvalTest.php">Chess\Eval\RelativePinEval</a></td>
+</tr>
+<tr>
+<td>Space</td>
+<td>This is a measure of the number of squares controlled by each player.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/SpaceEvalTest.php">Chess\Eval\SpaceEval</a></td>
+</tr>
+<tr>
+<td>Square outpost</td>
+<td>A square protected by a pawn that cannot be attacked by an opponent's pawn.</td>
+<td><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/SqOutpostEvalTest.php">Chess\Eval\SqOutpostEval</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="evaluate-a-chess-position">Evaluate a Chess Position</h2>
+<p>Evaluation functions allow to transform a FEN position to a normalized array of values between -1 and +1. -1 is the best possible evaluation for Black and +1 the best possible evaluation for White. Both forces being set to 0 means they're balanced.</p>
+<ul>
+<li><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/CompleteFunctionTest.php">Chess\Eval\CompleteFunction</a></li>
+<li><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/Eval/FastFunctionTest.php">Chess\Eval\FastFunction</a></li>
+</ul>
+<p>The fast evaluation function is convenient to evaluate entire games while the complete evaluation function is intended for specific chess positions as shown in the following example.</p>
+<pre><code class="language-php">use Chess\Eval\CompleteFunction;
+use Chess\Variant\Classical\FenToBoardFactory;
+
+$fen = 'rnbqkb1r/p1pp1ppp/1p2pn2/8/2PP4/2N2N2/PP2PPPP/R1BQKB1R b KQkq -';
+
+$board = FenToBoardFactory::create($fen);
+
+$result = [
+    'names' =&gt; CompleteFunction::names(),
+    'normd' =&gt; CompleteFunction::normalization($board),
+];
+
+print_r($result);
+</code></pre>
+<pre><code class="language-text">Array
+(
+    [names] =&gt; Array
+        (
+            [0] =&gt; Material
+            [1] =&gt; Center
+            [2] =&gt; Connectivity
+            [3] =&gt; Space
+            [4] =&gt; Pressure
+            [5] =&gt; King safety
+            [6] =&gt; Protection
+            [7] =&gt; Discovered check
+            [8] =&gt; Doubled pawn
+            [9] =&gt; Passed pawn
+            [10] =&gt; Advanced pawn
+            [11] =&gt; Far-advanced pawn
+            [12] =&gt; Isolated pawn
+            [13] =&gt; Backward pawn
+            [14] =&gt; Defense
+            [15] =&gt; Absolute skewer
+            [16] =&gt; Absolute pin
+            [17] =&gt; Relative pin
+            [18] =&gt; Absolute fork
+            [19] =&gt; Relative fork
+            [20] =&gt; Outpost square
+            [21] =&gt; Knight outpost
+            [22] =&gt; Bishop outpost
+            [23] =&gt; Bishop pair
+            [24] =&gt; Bad bishop
+            [25] =&gt; Diagonal opposition
+            [26] =&gt; Direct opposition
+            [27] =&gt; Overloading
+            [28] =&gt; Back-rank threat
+            [29] =&gt; Flight square
+            [30] =&gt; Attack
+            [31] =&gt; Checkability
+        )
+
+    [normd] =&gt; Array
+        (
+            [0] =&gt; 0
+            [1] =&gt; 1
+            [2] =&gt; -1
+            [3] =&gt; 0.2419
+            [4] =&gt; 0
+            [5] =&gt; 0
+            [6] =&gt; 0
+            [7] =&gt; 0
+            [8] =&gt; 0
+            [9] =&gt; 0
+            [10] =&gt; 0
+            [11] =&gt; 0
+            [12] =&gt; 0
+            [13] =&gt; 0
+            [14] =&gt; 0
+            [15] =&gt; 0
+            [16] =&gt; 0
+            [17] =&gt; 0
+            [18] =&gt; 0
+            [19] =&gt; 0
+            [20] =&gt; 0
+            [21] =&gt; 0
+            [22] =&gt; 0
+            [23] =&gt; 0
+            [24] =&gt; 0
+            [25] =&gt; 0
+            [26] =&gt; 0
+            [27] =&gt; 0
+            [28] =&gt; 0
+            [29] =&gt; 0
+            [30] =&gt; 0
+            [31] =&gt; 0
+        )
+
+)
+</code></pre>
+<p>So why two functions instead of just one? Well, a computer may well take about 0.1 seconds to evaluate a chess position. Now, if this number is multiplied by 80 different positions that a chess game has on average, the result obtained is 8 seconds. The fast evaluation function comes to the rescue to evaluate a bunch of positions at once.</p>
+<p><img alt="Figure 1" src="https://raw.githubusercontent.com/chesslablab/php-chess/main/docs/heuristics_01.png" /></p>
+<p>The evaluation array is used to estimate who may be better without considering checkmate. Please note that a heuristic evaluation is not the same thing as a chess calculation. Heuristic evaluations are often correct but may fail because they are based on probabilities.</p>
+<h3 id="steinitz-evaluation">Steinitz Evaluation</h3>
+<p>As chess champion William Steinitz pointed out, a strong position can be created by accumulating small advantages. The relative value of the position without considering checkmate is obtained by counting the advantages in the evaluation array.</p>
+<pre><code class="language-php">$steinitz = CompleteFunction::steinitz($board);
+
+echo $steinitz;
+</code></pre>
+<pre><code class="language-text">1
+</code></pre>
+<p>In this example, White is better than Black because the value obtained is a positive number. One evaluation feature is favoring White.</p>
+<p>Chess evaluation functions often consist in multiplying the terms by a weight and adding the results to construct a linear combination.</p>
+<p><img alt="Figure 2" src="https://raw.githubusercontent.com/chesslablab/php-chess/main/docs/heuristics_02.png" /></p>
+<p>However, the Steinitz evaluation alone, which is to say just counting the advantages, has proven to be quite accurate as a relative estimate for chess positions in a way that is easy for human players to understand and to learn. Also it can be complemented with other statistical measures such as the mean, median, mode, and standard deviation of the evaluation array without counting the zeros.</p>
+<p>The interesting thing about this evaluation is that it objectively describes how a chess game is developed in terms of advantages and can be used for obtaining insights.</p>
+<h3 id="mean">Mean</h3>
+<p>The mean represents the center of the evaluation array being intermediate to the extreme values.</p>
+<pre><code class="language-php">$mean = CompleteFunction::mean($f, $board);
+
+echo $mean;
+</code></pre>
+<pre><code class="language-text">0.0806
+</code></pre>
+<h3 id="median">Median</h3>
+<p>The median is the value in the middle of the evaluation array.</p>
+<pre><code class="language-php">$median = CompleteFunction::median($board);
+
+echo $median;
+</code></pre>
+<pre><code class="language-text">0.2419
+</code></pre>
+<h3 id="mode">Mode</h3>
+<p>The mode is the value that appears most frequently in the evaluation array.</p>
+<pre><code class="language-php">$mode = CompleteFunction::mode($board);
+
+echo $mode;
+</code></pre>
+<p>In this example, no mode exists since there are no repeating numbers in the evaluation array.</p>
+<h3 id="standard-deviation">Standard Deviation</h3>
+<p>The standard deviation is a measure of how spread out the evaluation array is.</p>
+<pre><code class="language-php">$sd = CompleteFunction::sd($board);
+
+echo $sd;
+</code></pre>
+<pre><code class="language-text">0.8244
+</code></pre>
+<h2 id="plot-the-oscillations-of-a-game">Plot the Oscillations of a Game</h2>
+<p>Given a PGN movetext in SAN format, <a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/SanPlotterTest.php">Chess\SanPlotter</a> returns the oscillations of an evaluation feature in the time domain.</p>
+<pre><code class="language-php">use Chess\SanPlotter;
+use Chess\Eval\CompleteFunction;
+use Chess\Variant\Classical\Board;
+
+$f = new CompleteFunction();
+$board = new Board();
+$movetext = '1.e4 d5 2.exd5 Qxd5';
+$name = 'Space';
+
+$time = SanPlotter::time($f, $board, $movetext, $name);
+
+print_r($time);
+</code></pre>
+<pre><code class="language-text">Array
+(
+    [0] =&gt; 0
+    [1] =&gt; 1
+    [2] =&gt; 0.25
+    [3] =&gt; 0.5
+    [4] =&gt; -1
+)
+</code></pre>
+<p><img alt="Figure 3" src="https://raw.githubusercontent.com/chesslablab/php-chess/main/docs/heuristics_03.png" /></p>
+<p>The data is plotted in a way that is easy for chess players to understand and learn.</p>
+<h2 id="extract-chess-data">Extract Chess Data</h2>
+<p><a href="https://github.com/chesslablab/php-chess/blob/main/tests/unit/SanExtractorTest.php">Chess\SanExtractor</a> extracts data from entire games like the following example.</p>
+<pre><code class="language-php">use Chess\SanExtractor;
+use Chess\Eval\FastFunction;
+use Chess\Variant\Classical\Board;
+
+$f = new FastFunction();
+$board = new Board();
+$movetext = '1.e4 d5 2.exd5 Qxd5';
+</code></pre>
+<h3 id="evaluation-array">Evaluation Array</h3>
+<p>This is how component number four, which is to say the normalization of the fourth evaluation array, is obtained from the example above.</p>
+<pre><code class="language-php">$eval = SanExtractor::eval($f, $board, $movetext);
+
+print_r($eval[4]);
+</code></pre>
+<pre><code class="language-text">Array
+(
+    [0] =&gt; 0
+    [1] =&gt; -1
+    [2] =&gt; 1
+    [3] =&gt; -0.2423
+    [4] =&gt; -0.0661
+    [5] =&gt; -0.022
+    [6] =&gt; 0
+    [7] =&gt; 0
+    [8] =&gt; 0
+    [9] =&gt; 0
+    [10] =&gt; 0
+    [11] =&gt; 0
+    [12] =&gt; 0
+    [13] =&gt; 0
+    [14] =&gt; -0.1123
+    [15] =&gt; 0
+    [16] =&gt; 0
+    [17] =&gt; 0
+    [18] =&gt; 0
+    [19] =&gt; 0
+    [20] =&gt; 0
+    [21] =&gt; 0
+    [22] =&gt; 0
+    [23] =&gt; 0
+    [24] =&gt; 0
+    [25] =&gt; 0
+    [26] =&gt; 0
+    [27] =&gt; 0
+    [28] =&gt; 0
+    [29] =&gt; -0.022
+)
+</code></pre>
+<p><img alt="Figure 4" src="https://raw.githubusercontent.com/chesslablab/php-chess/main/docs/heuristics_04.png" /></p>
+<p>The evaluation array can be plotted in a way that is easy for chess players to understand and learn.</p>
+<h3 id="steinitz-evaluation_1">Steinitz Evaluation</h3>
+<pre><code class="language-php">$steinitz = SanExtractor::steinitz($f, $board, $movetext);
+
+print_r($steinitz);
+</code></pre>
+<pre><code class="language-text">Array
+(
+    [0] =&gt; 0
+    [1] =&gt; 2
+    [2] =&gt; 0
+    [3] =&gt; 0
+    [4] =&gt; -5
+)
+</code></pre>
+<p><img alt="Figure 5" src="https://raw.githubusercontent.com/chesslablab/php-chess/main/docs/heuristics_05.png" /></p>
+<h3 id="mean_1">Mean</h3>
+<pre><code class="language-php">$mean = SanExtractor::mean($f, $board, $movetext);
+
+print_r($mean);
+</code></pre>
+<pre><code class="language-text">Array
+(
+    [0] =&gt; 0
+    [1] =&gt; 0.1875
+    [2] =&gt; -0.125
+    [3] =&gt; -0.2813
+    [4] =&gt; -0.0664
+)
+</code></pre>
+<p><img alt="Figure 6" src="https://raw.githubusercontent.com/chesslablab/php-chess/main/docs/heuristics_06.png" /></p>
+<h3 id="standard-deviation_1">Standard Deviation</h3>
+<pre><code class="language-php">$sd = SanExtractor::sd($f, $board, $movetext);
+
+print_r($sd);
+</code></pre>
+<pre><code class="language-text">Array
+(
+    [0] =&gt; 0
+    [1] =&gt; 0.7601
+    [2] =&gt; -0.8927
+    [3] =&gt; -0.7623
+    [4] =&gt; -0.5406
+)
+</code></pre>
+<p><img alt="Figure 7" src="https://raw.githubusercontent.com/chesslablab/php-chess/main/docs/heuristics_07.png" /></p>
+<p>🎉 So chess positions and games can be plotted on charts and processed with machine learning techniques. Become a better player by extracting knowledge from games with the help of <a href="https://chess-data.chesslablab.org/#data-mining">Data Mining</a> tools.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
