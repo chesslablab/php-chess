@@ -1,0 +1,11 @@
+.env
+.idea/
+.phpunit.result.cache
+
+composer.lock
+
+/storage/tmp/*.jpg
+/tests/tmp/*.png
+/vendor/
+
+/site/

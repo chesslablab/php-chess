@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    backupGlobals="false"
+    colors="true"
+    bootstrap="vendor/autoload.php"
+>
+    <php>
+        <env name="APP_ENV" value="test"/>
+    </php>
+    <testsuites>
+        <testsuite name="unit">
+            <directory>tests/unit/Computer</directory>
+            <directory>tests/unit/Elo</directory>
+            <directory>tests/unit/Eval</directory>
+            <directory>tests/unit/Media</directory>
+            <directory>tests/unit/Movetext</directory>
+            <directory>tests/unit/Play</directory>
+            <directory>tests/unit/Randomizer</directory>
+            <directory>tests/unit/Tutor</directory>
+            <directory>tests/unit/Variant</directory>
+            <file>tests/unit/SanExtractorTest.php</file>
+            <file>tests/unit/SanPlotterTest.php</file>
+            <file>tests/unit/SanSignalTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
