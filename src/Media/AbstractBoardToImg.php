@@ -19,7 +19,7 @@ class AbstractBoardToImg extends AbstractMedia
     public function __construct(
         AbstractBoard $board,
         bool $flip = false,
-        string $pieceSet = self::PIECE_SET_CLASSICAL
+        string $pieceSet = self::PIECE_SET_STANDARD
     )
     {
         $this->board = $board;

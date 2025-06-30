@@ -64,7 +64,7 @@ class BoardToMp4 extends AbstractMedia
         string $movetext,
         AbstractBoard $board,
         bool $flip = false,
-        string $pieceSet = self::PIECE_SET_CLASSICAL
+        string $pieceSet = self::PIECE_SET_STANDARD
     )
     {
         $this->sanMovetext = new SanMovetext($board->move, $movetext);
