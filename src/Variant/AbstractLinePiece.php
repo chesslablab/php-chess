@@ -2,8 +2,6 @@
 
 namespace Chess\Variant;
 
-use Chess\Variant\Classical\PGN\Piece;
-
 /**
  * Abstract Line Piece
  *
