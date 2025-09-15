@@ -4,7 +4,6 @@ namespace Chess\Eval;
 
 use Chess\Variant\AbstractBoard;
 use Chess\Variant\Classical\PGN\Color;
-use Chess\Variant\Classical\PGN\Piece;
 
 /**
  * Pressure Evaluation
@@ -50,29 +49,10 @@ class PressureEval extends AbstractEval
         ];
 
         foreach ($pieces = $this->board->pieces() as $piece) {
-            if ($piece->id === Piece::K) {
+            foreach ($piece->attacked() as $attacked) {
                 $this->result[$piece->color] = [
                     ...$this->result[$piece->color],
-                    ...array_intersect(
-                        $piece->flow,
-                        $this->board->sqCount['used'][$piece->oppColor()]
-                    )
-                ];
-            } elseif ($piece->id === Piece::P) {
-                $this->result[$piece->color] = [
-                    ...$this->result[$piece->color],
-                    ...array_intersect(
-                        $piece->xSqs,
-                        $this->board->sqCount['used'][$piece->oppColor()]
-                    )
-                ];
-            } else {
-                $this->result[$piece->color] = [
-                    ...$this->result[$piece->color],
-                    ...array_intersect(
-                        $piece->moveSqs(),
-                        $this->board->sqCount['used'][$piece->oppColor()]
-                    )
+                    ...[$attacked->sq],
                 ];
             }
         }
