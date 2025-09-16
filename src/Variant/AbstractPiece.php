@@ -123,7 +123,7 @@ abstract class AbstractPiece
         $pieces = [];
         foreach ($this->moveSqs() as $sq) {
             if ($piece = $this->board->pieceBySq($sq)) {
-                if ($piece->color === $this->oppColor()) {
+                if ($piece->color !== $this->color) {
                     $pieces[] = $piece;
                 }
             }

@@ -122,7 +122,7 @@ class K extends AbstractPiece
         $sqsCaptures = [];
         foreach ($this->flow as $sq) {
             if ($piece = $this->board->pieceBySq($sq)) {
-                if ($this->oppColor() === $piece->color) {
+                if ($this->color !== $piece->color) {
                     if (!$piece->defending()) {
                         $sqsCaptures[] = $sq;
                     }
