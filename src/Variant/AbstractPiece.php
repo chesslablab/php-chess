@@ -395,12 +395,7 @@ abstract class AbstractPiece
      */
     public function updateHalfmoveClock(): void
     {
-        if (str_contains($this->move['pgn'], 'x')) {
-            $this->board->halfmoveClock = 0;
-        } elseif (
-            $this->move['id'] === Piece::P ||
-            str_contains($this->move['pgn'], '=')
-        ) {
+        if ($this->move['id'] === Piece::P || str_contains($this->move['pgn'], 'x')) {
             $this->board->halfmoveClock = 0;
         } else {
             $this->board->halfmoveClock += 1;
