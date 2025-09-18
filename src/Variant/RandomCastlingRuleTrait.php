@@ -22,18 +22,18 @@ trait RandomCastlingRuleTrait
             $bSq = chr(97 + $key) . $this->size['ranks'];
             if ($val === Piece::R) {
                 if (!$longCastlingRook) {
-                    $this->rule[Color::W][Castle::LONG]['r_from'] = $wSq;
-                    $this->rule[Color::B][Castle::LONG]['r_from'] = $bSq;
+                    $this->rule[Color::W][Castle::LONG]['r'][0] = $wSq;
+                    $this->rule[Color::B][Castle::LONG]['r'][0] = $bSq;
                     $longCastlingRook = true;
                 } else {
-                    $this->rule[Color::W][Castle::SHORT]['r_from'] = $wSq;
-                    $this->rule[Color::B][Castle::SHORT]['r_from'] = $bSq;
+                    $this->rule[Color::W][Castle::SHORT]['r'][0] = $wSq;
+                    $this->rule[Color::B][Castle::SHORT]['r'][0] = $bSq;
                 }
             } elseif ($val === Piece::K) {
-                $this->rule[Color::W][Castle::LONG]['k_from'] = $wSq;
-                $this->rule[Color::B][Castle::LONG]['k_from'] = $bSq;
-                $this->rule[Color::W][Castle::SHORT]['k_from'] = $wSq;
-                $this->rule[Color::B][Castle::SHORT]['k_from'] = $bSq;
+                $this->rule[Color::W][Castle::LONG]['k'][0] = $wSq;
+                $this->rule[Color::B][Castle::LONG]['k'][0] = $bSq;
+                $this->rule[Color::W][Castle::SHORT]['k'][0] = $wSq;
+                $this->rule[Color::B][Castle::SHORT]['k'][0] = $bSq;
             }
         }
 
@@ -43,75 +43,75 @@ trait RandomCastlingRuleTrait
     protected function moveSqs()
     {
         $kPath = $this->path(
-            $this->rule[Color::W][Castle::SHORT]['k_from'],
-            $this->rule[Color::W][Castle::SHORT]['k_to']
+            $this->rule[Color::W][Castle::SHORT]['k'][0],
+            $this->rule[Color::W][Castle::SHORT]['k'][1]
         );
 
         $rPath = $this->path(
-            $this->rule[Color::W][Castle::SHORT]['r_from'],
-            $this->rule[Color::W][Castle::SHORT]['r_to']
+            $this->rule[Color::W][Castle::SHORT]['r'][0],
+            $this->rule[Color::W][Castle::SHORT]['r'][1]
         );
 
         $path = array_unique([...$kPath, ...$rPath]);
 
         $this->rule[Color::W][Castle::SHORT]['attack'] = $kPath;
         $this->rule[Color::W][Castle::SHORT]['free'] = array_diff($path, [
-            $this->rule[Color::W][Castle::SHORT]['k_from'],
-            $this->rule[Color::W][Castle::SHORT]['r_from'],
+            $this->rule[Color::W][Castle::SHORT]['k'][0],
+            $this->rule[Color::W][Castle::SHORT]['r'][0],
         ]);
 
         $kPath = $this->path(
-            $this->rule[Color::W][Castle::LONG]['k_from'],
-            $this->rule[Color::W][Castle::LONG]['k_to']
+            $this->rule[Color::W][Castle::LONG]['k'][0],
+            $this->rule[Color::W][Castle::LONG]['k'][1]
         );
 
         $rPath = $this->path(
-            $this->rule[Color::W][Castle::LONG]['r_from'],
-            $this->rule[Color::W][Castle::LONG]['r_to']
+            $this->rule[Color::W][Castle::LONG]['r'][0],
+            $this->rule[Color::W][Castle::LONG]['r'][1]
         );
 
         $path = array_unique([...$kPath, ...$rPath]);
 
         $this->rule[Color::W][Castle::LONG]['attack'] = $kPath;
         $this->rule[Color::W][Castle::LONG]['free'] = array_diff($path, [
-            $this->rule[Color::W][Castle::LONG]['k_from'],
-            $this->rule[Color::W][Castle::LONG]['r_from'],
+            $this->rule[Color::W][Castle::LONG]['k'][0],
+            $this->rule[Color::W][Castle::LONG]['r'][0],
         ]);
 
         $kPath = $this->path(
-            $this->rule[Color::B][Castle::SHORT]['k_from'],
-            $this->rule[Color::B][Castle::SHORT]['k_to']
+            $this->rule[Color::B][Castle::SHORT]['k'][0],
+            $this->rule[Color::B][Castle::SHORT]['k'][1]
         );
 
         $rPath = $this->path(
-            $this->rule[Color::B][Castle::SHORT]['r_from'],
-            $this->rule[Color::B][Castle::SHORT]['r_to']
+            $this->rule[Color::B][Castle::SHORT]['r'][0],
+            $this->rule[Color::B][Castle::SHORT]['r'][1]
         );
 
         $path = array_unique([...$kPath, ...$rPath]);
 
         $this->rule[Color::B][Castle::SHORT]['attack'] = $kPath;
         $this->rule[Color::B][Castle::SHORT]['free'] = array_diff($path, [
-            $this->rule[Color::B][Castle::SHORT]['k_from'],
-            $this->rule[Color::B][Castle::SHORT]['r_from'],
+            $this->rule[Color::B][Castle::SHORT]['k'][0],
+            $this->rule[Color::B][Castle::SHORT]['r'][0],
         ]);
 
         $kPath = $this->path(
-            $this->rule[Color::B][Castle::LONG]['k_from'],
-            $this->rule[Color::B][Castle::LONG]['k_to']
+            $this->rule[Color::B][Castle::LONG]['k'][0],
+            $this->rule[Color::B][Castle::LONG]['k'][1]
         );
 
         $rPath = $this->path(
-            $this->rule[Color::B][Castle::LONG]['r_from'],
-            $this->rule[Color::B][Castle::LONG]['r_to']
+            $this->rule[Color::B][Castle::LONG]['r'][0],
+            $this->rule[Color::B][Castle::LONG]['r'][1]
         );
 
         $path = array_unique([...$kPath, ...$rPath]);
 
         $this->rule[Color::B][Castle::LONG]['attack'] = $kPath;
         $this->rule[Color::B][Castle::LONG]['free'] = array_diff($path, [
-            $this->rule[Color::B][Castle::LONG]['k_from'],
-            $this->rule[Color::B][Castle::LONG]['r_from'],
+            $this->rule[Color::B][Castle::LONG]['k'][0],
+            $this->rule[Color::B][Castle::LONG]['r'][0],
         ]);
 
         sort($this->rule[Color::W][Castle::SHORT]['free']);
