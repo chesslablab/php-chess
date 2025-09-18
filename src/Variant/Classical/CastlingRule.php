@@ -6,7 +6,6 @@ use Chess\Exception\UnknownNotationException;
 use Chess\Variant\AbstractNotation;
 use Chess\Variant\Classical\PGN\Castle;
 use Chess\Variant\Classical\PGN\Color;
-use Chess\Variant\Classical\PGN\Piece;
 
 class CastlingRule extends AbstractNotation
 {
@@ -16,55 +15,39 @@ class CastlingRule extends AbstractNotation
 
     public array $rule = [
         Color::W => [
-            Piece::K => [
-                Castle::SHORT => [
-                    'free' => [ 'f1', 'g1' ],
-                    'attack' => [ 'e1', 'f1', 'g1' ],
-                    'from' => 'e1',
-                    'to' => 'g1',
-                ],
-                Castle::LONG => [
-                    'free' => [ 'b1', 'c1', 'd1' ],
-                    'attack' => [ 'c1', 'd1', 'e1' ],
-                    'from' => 'e1',
-                    'to' => 'c1',
-                ],
+            Castle::SHORT => [
+                'free' => [ 'f1', 'g1' ],
+                'attack' => [ 'e1', 'f1', 'g1' ],
+                'k_from' => 'e1',
+                'k_to' => 'g1',
+                'r_from' => 'h1',
+                'r_to' => 'f1',
             ],
-            Piece::R => [
-                Castle::SHORT => [
-                    'from' => 'h1',
-                    'to' => 'f1',
-                ],
-                Castle::LONG => [
-                    'from' => 'a1',
-                    'to' => 'd1',
-                ],
+            Castle::LONG => [
+                'free' => [ 'b1', 'c1', 'd1' ],
+                'attack' => [ 'c1', 'd1', 'e1' ],
+                'k_from' => 'e1',
+                'k_to' => 'c1',
+                'r_from' => 'a1',
+                'r_to' => 'd1',
             ],
         ],
         Color::B => [
-            Piece::K => [
-                Castle::SHORT => [
-                    'free' => [ 'f8', 'g8' ],
-                    'attack' => [ 'e8', 'f8', 'g8' ],
-                    'from' => 'e8',
-                    'to' => 'g8',
-                ],
-                Castle::LONG => [
-                    'free' => [ 'b8', 'c8', 'd8' ],
-                    'attack' => [ 'c8', 'd8', 'e8' ],
-                    'from' => 'e8',
-                    'to' => 'c8',
-                ],
+            Castle::SHORT => [
+                'free' => [ 'f8', 'g8' ],
+                'attack' => [ 'e8', 'f8', 'g8' ],
+                'k_from' => 'e8',
+                'k_to' => 'g8',
+                'r_from' => 'h8',
+                'r_to' => 'f8',
             ],
-            Piece::R => [
-                Castle::SHORT => [
-                    'from' => 'h8',
-                    'to' => 'f8',
-                ],
-                Castle::LONG => [
-                    'from' => 'a8',
-                    'to' => 'd8',
-                ],
+            Castle::LONG => [
+                'free' => [ 'b8', 'c8', 'd8' ],
+                'attack' => [ 'c8', 'd8', 'e8' ],
+                'k_from' => 'e8',
+                'k_to' => 'c8',
+                'r_from' => 'a8',
+                'r_to' => 'd8',
             ],
         ],
     ];

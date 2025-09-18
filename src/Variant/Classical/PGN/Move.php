@@ -90,16 +90,16 @@ class Move extends AbstractNotation
                 'pgn' => $pgn,
                 'color' => $color,
                 'id' => Piece::K,
-                'from' => $castlingRule?->rule[$color][Piece::K][Castle::SHORT]['from'],
-                'to' => $castlingRule?->rule[$color][Piece::K][Castle::SHORT]['to'],
+                'from' => $castlingRule?->rule[$color][Castle::SHORT]['k_from'],
+                'to' => $castlingRule?->rule[$color][Castle::SHORT]['k_to'],
             ];
         } elseif (preg_match('/^' . static::CASTLE_LONG . '$/', $pgn)) {
             return [
                 'pgn' => $pgn,
                 'color' => $color,
                 'id' => Piece::K,
-                'from' => $castlingRule?->rule[$color][Piece::K][Castle::LONG]['from'],
-                'to' => $castlingRule?->rule[$color][Piece::K][Castle::LONG]['to'],
+                'from' => $castlingRule?->rule[$color][Castle::LONG]['k_from'],
+                'to' => $castlingRule?->rule[$color][Castle::LONG]['k_to'],
             ];
         } elseif (preg_match('/^' . static::PAWN_PROMOTES . '$/', $pgn)) {
             return [

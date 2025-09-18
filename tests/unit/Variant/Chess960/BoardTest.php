@@ -8,7 +8,6 @@ use Chess\Tests\AbstractUnitTestCase;
 use Chess\Variant\Classical\PGN\Castle;
 use Chess\Variant\Classical\PGN\Color;
 use Chess\Variant\Classical\PGN\Move;
-use Chess\Variant\Classical\PGN\Piece;
 use Chess\Variant\Chess960\Board;
 use Chess\Variant\Chess960\FenToBoardFactory;
 use Chess\Variant\Chess960\Shuffle;
@@ -60,55 +59,39 @@ class BoardTest extends AbstractUnitTestCase
 
         $expected = [
             Color::W => [
-                Piece::K => [
-                    Castle::SHORT => [
-                        'free' => [ 'f1', 'g1' ],
-                        'attack' => [ 'd1', 'e1', 'f1', 'g1' ],
-                        'from' => 'd1',
-                        'to' => 'g1',
-                    ],
-                    Castle::LONG => [
-                        'free' => [ 'b1', 'c1' ],
-                        'attack' => [ 'c1', 'd1' ],
-                        'from' => 'd1',
-                        'to' => 'c1',
-                    ],
+                Castle::SHORT => [
+                    'free' => [ 'f1', 'g1' ],
+                    'attack' => [ 'd1', 'e1', 'f1', 'g1' ],
+                    'k_from' => 'd1',
+                    'k_to' => 'g1',
+                    'r_from' => 'e1',
+                    'r_to' => 'f1',
                 ],
-                Piece::R => [
-                    Castle::SHORT => [
-                        'from' => 'e1',
-                        'to' => 'f1',
-                    ],
-                    Castle::LONG => [
-                        'from' => 'a1',
-                        'to' => 'd1',
-                    ],
+                Castle::LONG => [
+                    'free' => [ 'b1', 'c1' ],
+                    'attack' => [ 'c1', 'd1' ],
+                    'k_from' => 'd1',
+                    'k_to' => 'c1',
+                    'r_from' => 'a1',
+                    'r_to' => 'd1',
                 ],
             ],
             Color::B => [
-                Piece::K => [
-                    Castle::SHORT => [
-                        'free' => [ 'f8', 'g8' ],
-                        'attack' => [ 'd8', 'e8', 'f8', 'g8' ],
-                        'from' => 'd8',
-                        'to' => 'g8',
-                    ],
-                    Castle::LONG => [
-                        'free' => [ 'b8', 'c8' ],
-                        'attack' => [ 'c8', 'd8' ],
-                        'from' => 'd8',
-                        'to' => 'c8',
-                    ],
+                Castle::SHORT => [
+                    'free' => [ 'f8', 'g8' ],
+                    'attack' => [ 'd8', 'e8', 'f8', 'g8' ],
+                    'k_from' => 'd8',
+                    'k_to' => 'g8',
+                    'r_from' => 'e8',
+                    'r_to' => 'f8',
                 ],
-                Piece::R => [
-                    Castle::SHORT => [
-                        'from' => 'e8',
-                        'to' => 'f8',
-                    ],
-                    Castle::LONG => [
-                        'from' => 'a8',
-                        'to' => 'd8',
-                    ],
+                Castle::LONG => [
+                    'free' => [ 'b8', 'c8' ],
+                    'attack' => [ 'c8', 'd8' ],
+                    'k_from' => 'd8',
+                    'k_to' => 'c8',
+                    'r_from' => 'a8',
+                    'r_to' => 'd8',
                 ],
             ],
         ];
@@ -127,55 +110,39 @@ class BoardTest extends AbstractUnitTestCase
 
         $expected = [
             Color::W => [
-                Piece::K => [
-                    Castle::SHORT => [
-                        'free' => [ 'f1', 'g1' ],
-                        'attack' => [ 'd1', 'e1', 'f1', 'g1' ],
-                        'from' => 'd1',
-                        'to' => 'g1',
-                    ],
-                    Castle::LONG => [
-                        'free' => [ 'c1' ],
-                        'attack' => [ 'c1', 'd1' ],
-                        'from' => 'd1',
-                        'to' => 'c1',
-                    ],
+                Castle::SHORT => [
+                    'free' => [ 'f1', 'g1' ],
+                    'attack' => [ 'd1', 'e1', 'f1', 'g1' ],
+                    'k_from' => 'd1',
+                    'k_to' => 'g1',
+                    'r_from' => 'e1',
+                    'r_to' => 'f1',
                 ],
-                Piece::R => [
-                    Castle::SHORT => [
-                        'from' => 'e1',
-                        'to' => 'f1',
-                    ],
-                    Castle::LONG => [
-                        'from' => 'b1',
-                        'to' => 'd1',
-                    ],
+                Castle::LONG => [
+                    'free' => [ 'c1' ],
+                    'attack' => [ 'c1', 'd1' ],
+                    'k_from' => 'd1',
+                    'k_to' => 'c1',
+                    'r_from' => 'b1',
+                    'r_to' => 'd1',
                 ],
             ],
             Color::B => [
-                Piece::K => [
-                    Castle::SHORT => [
-                        'free' => [ 'f8', 'g8' ],
-                        'attack' => [ 'd8', 'e8', 'f8', 'g8' ],
-                        'from' => 'd8',
-                        'to' => 'g8',
-                    ],
-                    Castle::LONG => [
-                        'free' => [ 'c8' ],
-                        'attack' => [ 'c8', 'd8' ],
-                        'from' => 'd8',
-                        'to' => 'c8',
-                    ],
+                Castle::SHORT => [
+                    'free' => [ 'f8', 'g8' ],
+                    'attack' => [ 'd8', 'e8', 'f8', 'g8' ],
+                    'k_from' => 'd8',
+                    'k_to' => 'g8',
+                    'r_from' => 'e8',
+                    'r_to' => 'f8',
                 ],
-                Piece::R => [
-                    Castle::SHORT => [
-                        'from' => 'e8',
-                        'to' => 'f8',
-                    ],
-                    Castle::LONG => [
-                        'from' => 'b8',
-                        'to' => 'd8',
-                    ],
+                Castle::LONG => [
+                    'free' => [ 'c8' ],
+                    'attack' => [ 'c8', 'd8' ],
+                    'k_from' => 'd8',
+                    'k_to' => 'c8',
+                    'r_from' => 'b8',
+                    'r_to' => 'd8',
                 ],
             ],
         ];
@@ -194,55 +161,39 @@ class BoardTest extends AbstractUnitTestCase
 
         $expected = [
             Color::W => [
-                Piece::K => [
-                    Castle::SHORT => [
-                        'free' => [ 'f1' ],
-                        'attack' => [ 'e1', 'f1', 'g1' ],
-                        'from' => 'e1',
-                        'to' => 'g1',
-                    ],
-                    Castle::LONG => [
-                        'free' => [ 'c1' ],
-                        'attack' => [ 'c1', 'd1', 'e1' ],
-                        'from' => 'e1',
-                        'to' => 'c1',
-                    ],
+                Castle::SHORT => [
+                    'free' => [ 'f1' ],
+                    'attack' => [ 'e1', 'f1', 'g1' ],
+                    'k_from' => 'e1',
+                    'k_to' => 'g1',
+                    'r_from' => 'g1',
+                    'r_to' => 'f1',
                 ],
-                Piece::R => [
-                    Castle::SHORT => [
-                        'from' => 'g1',
-                        'to' => 'f1',
-                    ],
-                    Castle::LONG => [
-                        'from' => 'd1',
-                        'to' => 'd1',
-                    ],
+                Castle::LONG => [
+                    'free' => [ 'c1' ],
+                    'attack' => [ 'c1', 'd1', 'e1' ],
+                    'k_from' => 'e1',
+                    'k_to' => 'c1',
+                    'r_from' => 'd1',
+                    'r_to' => 'd1',
                 ],
             ],
             Color::B => [
-                Piece::K => [
-                    Castle::SHORT => [
-                        'free' => [ 'f8' ],
-                        'attack' => [ 'e8', 'f8', 'g8' ],
-                        'from' => 'e8',
-                        'to' => 'g8',
-                    ],
-                    Castle::LONG => [
-                        'free' => [ 'c8' ],
-                        'attack' => [ 'c8', 'd8', 'e8' ],
-                        'from' => 'e8',
-                        'to' => 'c8',
-                    ],
+                Castle::SHORT => [
+                    'free' => [ 'f8' ],
+                    'attack' => [ 'e8', 'f8', 'g8' ],
+                    'k_from' => 'e8',
+                    'k_to' => 'g8',
+                    'r_from' => 'g8',
+                    'r_to' => 'f8',
                 ],
-                Piece::R => [
-                    Castle::SHORT => [
-                        'from' => 'g8',
-                        'to' => 'f8',
-                    ],
-                    Castle::LONG => [
-                        'from' => 'd8',
-                        'to' => 'd8',
-                    ],
+                Castle::LONG => [
+                    'free' => [ 'c8' ],
+                    'attack' => [ 'c8', 'd8', 'e8' ],
+                    'k_from' => 'e8',
+                    'k_to' => 'c8',
+                    'r_from' => 'd8',
+                    'r_to' => 'd8',
                 ],
             ],
         ];

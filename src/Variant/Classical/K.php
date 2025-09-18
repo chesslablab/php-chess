@@ -148,14 +148,14 @@ class K extends AbstractPiece
             $id = $this->board->turn === Color::W ? Piece::Q : mb_strtolower(Piece::Q);
         }
         if (str_contains($this->board->castlingAbility, $id)) {
-            $rule = $this->board->castlingRule?->rule[$this->color][Piece::K][$type];
+            $rule = $this->board->castlingRule?->rule[$this->color][$type];
             if (
                 $this->board->turn === $this->color &&
                 !$this->board->isCheck() &&
                 !array_diff($rule['free'], $this->board->sqCount['free']) &&
                 !array_intersect($rule['attack'], $this->board->spaceEval[$this->oppColor()])
             ) {
-                return $rule['to'];
+                return $rule['k_to'];
             }
         }
 
@@ -170,8 +170,8 @@ class K extends AbstractPiece
      */
     public function getCastleRook(string $type): ?R
     {
-        $rule = $this->board->castlingRule->rule[$this->color][Piece::R][$type];
-        if ($piece = $this->board->pieceBySq($rule['from'])) {
+        $rule = $this->board->castlingRule->rule[$this->color][$type];
+        if ($piece = $this->board->pieceBySq($rule['r_from'])) {
             if ($this->sqCastle($type)) {
                 return $piece;
             }
@@ -203,7 +203,7 @@ class K extends AbstractPiece
             $this->board->attach(
                 new K(
                     $this->color,
-                    $this->board->castlingRule->rule[$this->color][Piece::K][rtrim($this->move['pgn'], '+')]['to'],
+                    $this->board->castlingRule->rule[$this->color][rtrim($this->move['pgn'], '+')]['k_to'],
                     $this->board->square
                 )
              );
@@ -211,7 +211,7 @@ class K extends AbstractPiece
             $this->board->attach(
                 new R(
                     $rook->color,
-                    $this->board->castlingRule->rule[$this->color][Piece::R][rtrim($this->move['pgn'], '+')]['to'],
+                    $this->board->castlingRule->rule[$this->color][rtrim($this->move['pgn'], '+')]['r_to'],
                     $this->board->square,
                     $rook->type
                 )
