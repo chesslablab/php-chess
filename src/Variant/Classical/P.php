@@ -166,7 +166,7 @@ class P extends AbstractPiece
      */
     public function capture(): void
     {
-        if (str_contains($this->move['case'], 'x')) {
+        if (str_contains($this->move['pgn'], 'x')) {
             if ($this->xEnPassantSq && $this->move['to'] === $this->xEnPassantSq) {
                 $rank = (int) substr($this->xEnPassantSq, 1);
                 $rank = $this->color === Color::W ? $rank - 1 : $rank + 1;

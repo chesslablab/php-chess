@@ -22,18 +22,6 @@ class Move extends AbstractNotation
     const PIECE = '[BKNQR]{1}[a-h]{0,1}[1-8]{0,1}' . Square::AN . self::CHECK;
     const PIECE_CAPTURES = '[BKNQR]{1}[a-h]{0,1}[1-8]{0,1}x' . Square::AN . self::CHECK;
 
-    public function cases(): array
-    {
-        return (new \ReflectionClass(__CLASS__))->getConstants();
-    }
-
-    public function case(string $case): string
-    {
-        $key = array_search($case, $this->cases());
-
-        return $this->cases()[$key];
-    }
-
     public function validate(string $value): string
     {
         switch (true) {
@@ -66,7 +54,6 @@ class Move extends AbstractNotation
             $from = str_replace($to, '', $sqs);
             return [
                 'pgn' => $pgn,
-                'case' => static::PIECE,
                 'color' => $color,
                 'id' => mb_substr($pgn, 0, 1),
                 'from' => $from,
@@ -76,7 +63,6 @@ class Move extends AbstractNotation
             $arr = explode('x', $pgn);
             return [
                 'pgn' => $pgn,
-                'case' => static::PIECE_CAPTURES,
                 'color' => $color,
                 'id' => mb_substr($pgn, 0, 1),
                 'from' => $square->substr($arr[0]),
@@ -85,7 +71,6 @@ class Move extends AbstractNotation
         } elseif (preg_match('/^' . static::PAWN . '$/', $pgn)) {
             return [
                 'pgn' => $pgn,
-                'case' => static::PAWN,
                 'color' => $color,
                 'id' => Piece::P,
                 'from' => mb_substr($pgn, 0, 1),
@@ -95,7 +80,6 @@ class Move extends AbstractNotation
             $arr = explode('x', $pgn);
             return [
                 'pgn' => $pgn,
-                'case' => static::PAWN_CAPTURES,
                 'color' => $color,
                 'id' => Piece::P,
                 'from' => mb_substr($pgn, 0, 1),
@@ -104,7 +88,6 @@ class Move extends AbstractNotation
         } elseif (preg_match('/^' . static::CASTLE_SHORT . '$/', $pgn)) {
             return [
                 'pgn' => $pgn,
-                'case' => static::CASTLE_SHORT,
                 'color' => $color,
                 'id' => Piece::K,
                 'from' => $castlingRule?->rule[$color][Piece::K][Castle::SHORT]['from'],
@@ -113,7 +96,6 @@ class Move extends AbstractNotation
         } elseif (preg_match('/^' . static::CASTLE_LONG . '$/', $pgn)) {
             return [
                 'pgn' => $pgn,
-                'case' => static::CASTLE_LONG,
                 'color' => $color,
                 'id' => Piece::K,
                 'from' => $castlingRule?->rule[$color][Piece::K][Castle::LONG]['from'],
@@ -122,7 +104,6 @@ class Move extends AbstractNotation
         } elseif (preg_match('/^' . static::PAWN_PROMOTES . '$/', $pgn)) {
             return [
                 'pgn' => $pgn,
-                'case' => static::PAWN_PROMOTES,
                 'color' => $color,
                 'id' => Piece::P,
                 'newId' => substr(explode('=', $pgn)[1], 0, 1),
@@ -133,7 +114,6 @@ class Move extends AbstractNotation
             $arr = explode('x', $pgn);
             return [
                 'pgn' => $pgn,
-                'case' => static::PAWN_CAPTURES_AND_PROMOTES,
                 'color' => $color,
                 'id' => Piece::P,
                 'newId' => substr(explode('=', $pgn)[1], 0, 1),

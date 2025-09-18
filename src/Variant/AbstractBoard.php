@@ -134,16 +134,15 @@ abstract class AbstractBoard extends \SplObjectStorage
     /**
      * Returns true if the move is legal.
      *
-     * @param array $move
      * @param \Chess\Variant\AbstractPiece $piece
      * @return bool
      */
-    protected function isLegal(array $move, AbstractPiece $piece): bool
+    protected function isLegal(AbstractPiece $piece): bool
     {
-        if ($piece->move['case'] === $this->move->case(Move::CASTLE_SHORT)) {
-            return $piece->castle(RType::CASTLE_SHORT);
-        } elseif ($piece->move['case'] === $this->move->case(Move::CASTLE_LONG)) {
+        if (str_contains($piece->move['pgn'], Castle::LONG)) {
             return $piece->castle(RType::CASTLE_LONG);
+        } elseif (str_contains($piece->move['pgn'], Castle::SHORT)) {
+            return $piece->castle(RType::CASTLE_SHORT);
         }
 
         return $piece->move();
@@ -207,27 +206,23 @@ abstract class AbstractBoard extends \SplObjectStorage
     {
         // undo the double disambiguation
         $last = $this->history[count($this->history) - 1];
-        if (preg_match('/^' . Move::PIECE . '$/', $last['pgn']) ||
-            preg_match('/^' . Move::PIECE_CAPTURES . '$/', $last['pgn'])
-        ) {
-            $sqs = $this->square->explode($last['pgn']);
-            if (isset($sqs[0]) && isset($sqs[1])) {
-                if ($piece = $this->pieceBySq($sqs[1])) {
-                    $disambiguation = $sqs[0];
-                    $x = str_contains($last['pgn'], 'x') ? 'x' : '';
-                    foreach ($piece->defending() as $defending) {
-                        if ($defending->id === $piece->id) {
-                            $file = $sqs[0][0];
-                            $rank = (int) substr($sqs[0], 1);
-                            $disambiguation = $file  === $defending->file()
-                                ? str_replace($file , '', $disambiguation)
-                                : str_replace($rank, '', $disambiguation);
-                        }
+        $sqs = $this->square->explode($last['pgn']);
+        if (isset($sqs[0]) && isset($sqs[1])) {
+            if ($piece = $this->pieceBySq($sqs[1])) {
+                $disambiguation = $sqs[0];
+                $x = str_contains($last['pgn'], 'x') ? 'x' : '';
+                foreach ($piece->defending() as $defending) {
+                    if ($defending->id === $piece->id) {
+                        $file = $sqs[0][0];
+                        $rank = (int) substr($sqs[0], 1);
+                        $disambiguation = $file  === $defending->file()
+                            ? str_replace($file , '', $disambiguation)
+                            : str_replace($rank, '', $disambiguation);
                     }
-                    $this->history[count($this->history) - 1]['pgn'] = $disambiguation === $sqs[0]
-                        ? $piece->id . $x . $sqs[1]
-                        : $piece->id . $disambiguation . $x . $sqs[1];
                 }
+                $this->history[count($this->history) - 1]['pgn'] = $disambiguation === $sqs[0]
+                    ? $piece->id . $x . $sqs[1]
+                    : $piece->id . $disambiguation . $x . $sqs[1];
             }
         }
         // add the notation for check and checkmate to the move
@@ -408,7 +403,7 @@ abstract class AbstractBoard extends \SplObjectStorage
                 }
             }
             if ($piece = $this->disambiguate($move, $pieces)) {
-                return $this->isLegal($move, $piece);
+                return $this->isLegal($piece);
             }
         }
 

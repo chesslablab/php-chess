@@ -358,7 +358,7 @@ abstract class AbstractPiece
      */
     public function capture(): void
     {
-        if (str_contains($this->move['case'], 'x')) {
+        if (str_contains($this->move['pgn'], 'x')) {
             if ($piece = $this->board->pieceBySq($this->move['to'])) {
                 $this->board->detach($piece);
             }
@@ -395,11 +395,11 @@ abstract class AbstractPiece
      */
     public function updateHalfmoveClock(): void
     {
-        if (str_contains($this->move['case'], 'x')) {
+        if (str_contains($this->move['pgn'], 'x')) {
             $this->board->halfmoveClock = 0;
         } elseif (
-            $this->move['case'] === $this->board->move->case(Move::PAWN) ||
-            $this->move['case'] === $this->board->move->case(Move::PAWN_PROMOTES)
+            $this->move['id'] === Piece::P ||
+            str_contains($this->move['pgn'], '=')
         ) {
             $this->board->halfmoveClock = 0;
         } else {
