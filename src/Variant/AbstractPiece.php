@@ -373,9 +373,9 @@ abstract class AbstractPiece
         if ($this->id === Piece::K) {
             $search = $this->board->turn === Color::W ? 'KQ' : 'kq';
         } elseif ($this->id === Piece::R) {
-            if ($this->sq === $this->board->castlingRule?->rule[$this->color][Castle::SHORT]['r'][0]) {
+            if ($this->sq === $this->board->castlingRule?->rule[$this->color][Castle::SHORT][3][0]) {
                 $search = $this->board->turn === Color::W ? 'K' : 'k';
-            } elseif ($this->sq === $this->board->castlingRule?->rule[$this->color][Castle::LONG]['r'][0]) {
+            } elseif ($this->sq === $this->board->castlingRule?->rule[$this->color][Castle::LONG][3][0]) {
                 $search = $this->board->turn === Color::W ? 'Q' : 'q';
             }
         }

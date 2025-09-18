@@ -32,11 +32,11 @@ class KTest extends AbstractUnitTestCase
     {
         $rule = self::$castlingRule->rule[Color::W];
 
-        $this->assertSame($rule[Castle::LONG]['free'], [ 'b1', 'c1', 'd1' ]);
-        $this->assertSame($rule[Castle::LONG]['k'][0], 'e1');
-        $this->assertSame($rule[Castle::LONG]['k'][1], 'c1');
-        $this->assertSame($rule[Castle::LONG]['r'][0], 'a1');
-        $this->assertSame($rule[Castle::LONG]['r'][1], 'd1');
+        $this->assertSame($rule[Castle::LONG][0], [ 'b1', 'c1', 'd1' ]);
+        $this->assertSame($rule[Castle::LONG][2][0], 'e1');
+        $this->assertSame($rule[Castle::LONG][2][1], 'c1');
+        $this->assertSame($rule[Castle::LONG][3][0], 'a1');
+        $this->assertSame($rule[Castle::LONG][3][1], 'd1');
     }
 
     /**
@@ -46,11 +46,11 @@ class KTest extends AbstractUnitTestCase
     {
         $rule = self::$castlingRule->rule[Color::B];
 
-        $this->assertSame($rule[Castle::LONG]['free'], [ 'b8', 'c8', 'd8' ]);
-        $this->assertSame($rule[Castle::LONG]['k'][0], 'e8');
-        $this->assertSame($rule[Castle::LONG]['k'][1], 'c8');
-        $this->assertSame($rule[Castle::LONG]['r'][0], 'a8');
-        $this->assertSame($rule[Castle::LONG]['r'][1], 'd8');
+        $this->assertSame($rule[Castle::LONG][0], [ 'b8', 'c8', 'd8' ]);
+        $this->assertSame($rule[Castle::LONG][2][0], 'e8');
+        $this->assertSame($rule[Castle::LONG][2][1], 'c8');
+        $this->assertSame($rule[Castle::LONG][3][0], 'a8');
+        $this->assertSame($rule[Castle::LONG][3][1], 'd8');
     }
 
     /**
@@ -60,11 +60,11 @@ class KTest extends AbstractUnitTestCase
     {
         $rule = self::$castlingRule->rule[Color::W];
 
-        $this->assertSame($rule[Castle::SHORT]['free'], [ 'f1', 'g1' ]);
-        $this->assertSame($rule[Castle::SHORT]['k'][0], 'e1');
-        $this->assertSame($rule[Castle::SHORT]['k'][1], 'g1');
-        $this->assertSame($rule[Castle::SHORT]['r'][0], 'h1');
-        $this->assertSame($rule[Castle::SHORT]['r'][1], 'f1');
+        $this->assertSame($rule[Castle::SHORT][0], [ 'f1', 'g1' ]);
+        $this->assertSame($rule[Castle::SHORT][2][0], 'e1');
+        $this->assertSame($rule[Castle::SHORT][2][1], 'g1');
+        $this->assertSame($rule[Castle::SHORT][3][0], 'h1');
+        $this->assertSame($rule[Castle::SHORT][3][1], 'f1');
     }
 
     /**
@@ -74,11 +74,11 @@ class KTest extends AbstractUnitTestCase
     {
         $rule = self::$castlingRule->rule[Color::B];
 
-        $this->assertSame($rule[Castle::SHORT]['free'], [ 'f8', 'g8' ]);
-        $this->assertSame($rule[Castle::SHORT]['k'][0], 'e8');
-        $this->assertSame($rule[Castle::SHORT]['k'][1], 'g8');
-        $this->assertSame($rule[Castle::SHORT]['r'][0], 'h8');
-        $this->assertSame($rule[Castle::SHORT]['r'][1], 'f8');
+        $this->assertSame($rule[Castle::SHORT][0], [ 'f8', 'g8' ]);
+        $this->assertSame($rule[Castle::SHORT][2][0], 'e8');
+        $this->assertSame($rule[Castle::SHORT][2][1], 'g8');
+        $this->assertSame($rule[Castle::SHORT][3][0], 'h8');
+        $this->assertSame($rule[Castle::SHORT][3][1], 'f8');
     }
 
     /**

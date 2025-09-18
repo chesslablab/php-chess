@@ -16,30 +16,30 @@ class CastlingRule extends AbstractNotation
     public array $rule = [
         Color::W => [
             Castle::SHORT => [
-                'free' => [ 'f1', 'g1' ],
-                'attack' => [ 'e1', 'f1', 'g1' ],
-                'k' => [ 'e1', 'g1' ],
-                'r' => [ 'h1', 'f1' ],
+                0 => [ 'f1', 'g1' ], // free
+                1 => [ 'e1', 'f1', 'g1' ], // attack
+                2 => [ 'e1', 'g1' ], // king
+                3 => [ 'h1', 'f1' ], // rook
             ],
             Castle::LONG => [
-                'free' => [ 'b1', 'c1', 'd1' ],
-                'attack' => [ 'c1', 'd1', 'e1' ],
-                'k' => [ 'e1', 'c1' ],
-                'r' => [ 'a1', 'd1' ],
+                0 => [ 'b1', 'c1', 'd1' ],
+                1 => [ 'c1', 'd1', 'e1' ],
+                2 => [ 'e1', 'c1' ],
+                3 => [ 'a1', 'd1' ],
             ],
         ],
         Color::B => [
             Castle::SHORT => [
-                'free' => [ 'f8', 'g8' ],
-                'attack' => [ 'e8', 'f8', 'g8' ],
-                'k' => [ 'e8', 'g8' ],
-                'r' => [ 'h8', 'f8' ],
+                0 => [ 'f8', 'g8' ],
+                1 => [ 'e8', 'f8', 'g8' ],
+                2 => [ 'e8', 'g8' ],
+                3 => [ 'h8', 'f8' ],
             ],
             Castle::LONG => [
-                'free' => [ 'b8', 'c8', 'd8' ],
-                'attack' => [ 'c8', 'd8', 'e8' ],
-                'k' => [ 'e8', 'c8' ],
-                'r' => [ 'a8', 'd8' ],
+                0 => [ 'b8', 'c8', 'd8' ],
+                1 => [ 'c8', 'd8', 'e8' ],
+                2 => [ 'e8', 'c8' ],
+                3 => [ 'a8', 'd8' ],
             ],
         ],
     ];

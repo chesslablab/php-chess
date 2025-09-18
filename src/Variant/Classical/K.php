@@ -151,10 +151,10 @@ class K extends AbstractPiece
             if (
                 $this->board->turn === $this->color &&
                 !$this->board->isCheck() &&
-                !array_diff($rule['free'], $this->board->sqCount['free']) &&
-                !array_intersect($rule['attack'], $this->board->spaceEval[$this->oppColor()])
+                !array_diff($rule[0], $this->board->sqCount['free']) &&
+                !array_intersect($rule[1], $this->board->spaceEval[$this->oppColor()])
             ) {
-                return $rule['k'][1];
+                return $rule[2][1];
             }
         }
 
@@ -170,7 +170,7 @@ class K extends AbstractPiece
     public function getCastleRook(string $type): ?R
     {
         $rule = $this->board->castlingRule->rule[$this->color][$type];
-        if ($piece = $this->board->pieceBySq($rule['r'][0])) {
+        if ($piece = $this->board->pieceBySq($rule[3][0])) {
             if ($this->sqCastle($type)) {
                 return $piece;
             }
@@ -202,7 +202,7 @@ class K extends AbstractPiece
             $this->board->attach(
                 new K(
                     $this->color,
-                    $this->board->castlingRule->rule[$this->color][rtrim($this->move['pgn'], '+')]['k'][1],
+                    $this->board->castlingRule->rule[$this->color][rtrim($this->move['pgn'], '+')][2][1],
                     $this->board->square
                 )
              );
@@ -210,7 +210,7 @@ class K extends AbstractPiece
             $this->board->attach(
                 new R(
                     $rook->color,
-                    $this->board->castlingRule->rule[$this->color][rtrim($this->move['pgn'], '+')]['r'][1],
+                    $this->board->castlingRule->rule[$this->color][rtrim($this->move['pgn'], '+')][3][1],
                     $this->board->square
                 )
             );
