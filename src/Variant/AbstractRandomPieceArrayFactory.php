@@ -3,7 +3,6 @@
 namespace Chess\Variant;
 
 use Chess\Variant\AbstractNotation;
-use Chess\Variant\RType;
 use Chess\Variant\Classical\P;
 use Chess\Variant\Classical\PGN\Color;
 use Chess\Variant\Classical\PGN\Piece;
@@ -22,12 +21,12 @@ abstract class AbstractRandomPieceArrayFactory
                 $pieces[] =  new $class(Color::W, $wSq, $square);
                 $pieces[] =  new $class(Color::B, $bSq, $square);
             } elseif (!$longCastlingRook) {
-                $pieces[] =  new $class(Color::W, $wSq, $square, RType::CASTLE_LONG);
-                $pieces[] =  new $class(Color::B, $bSq, $square, RType::CASTLE_LONG);
+                $pieces[] =  new $class(Color::W, $wSq, $square);
+                $pieces[] =  new $class(Color::B, $bSq, $square);
                 $longCastlingRook = $shuffle[$key];
             } else {
-                $pieces[] =  new $class(Color::W, $wSq, $square, RType::CASTLE_SHORT);
-                $pieces[] =  new $class(Color::B, $bSq, $square, RType::CASTLE_SHORT);
+                $pieces[] =  new $class(Color::W, $wSq, $square);
+                $pieces[] =  new $class(Color::B, $bSq, $square);
             }
         }
         for ($i = 0; $i < $square::SIZE['files']; $i++) {

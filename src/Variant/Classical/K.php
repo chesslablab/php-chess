@@ -3,7 +3,6 @@
 namespace Chess\Variant\Classical;
 
 use Chess\Variant\AbstractPiece;
-use Chess\Variant\RType;
 use Chess\Variant\Classical\PGN\Castle;
 use Chess\Variant\Classical\PGN\Color;
 use Chess\Variant\Classical\PGN\Piece;
@@ -193,12 +192,12 @@ class K extends AbstractPiece
     /**
      * Castles the king.
      *
-     * @param string $rookType
+     * @param string $type
      * @return bool
      */
-    public function castle(string $rookType): bool
+    public function castle(string $type): bool
     {
-        if ($rook = $this->getCastleRook($rookType)) {
+        if ($rook = $this->getCastleRook($type)) {
             $this->board->detach($this->board->pieceBySq($this->sq));
             $this->board->attach(
                 new K(
@@ -212,8 +211,7 @@ class K extends AbstractPiece
                 new R(
                     $rook->color,
                     $this->board->castlingRule->rule[$this->color][rtrim($this->move['pgn'], '+')]['r'][1],
-                    $this->board->square,
-                    $rook->type
+                    $this->board->square
                 )
             );
             $this->updateCastlingAbility();

@@ -3,7 +3,6 @@
 namespace Chess\Variant\Capablanca;
 
 use Chess\Variant\AbstractLinePiece;
-use Chess\Variant\RType;
 use Chess\Variant\Capablanca\PGN\Piece;
 use Chess\Variant\Capablanca\PGN\Square;
 use Chess\Variant\Classical\N;
@@ -18,7 +17,7 @@ class C extends AbstractLinePiece
         parent::__construct($color, $sq, Piece::C);
 
         $this->flow = [
-            ...(new R($color, $sq, $square, RType::R))->flow,
+            ...(new R($color, $sq, $square))->flow,
             (new N($color, $sq, $square))->flow,
         ];
     }

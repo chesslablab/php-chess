@@ -29,7 +29,7 @@ class PieceArrayFactory
                         $color = Color::W;
                     }
                     if ($char === Piece::R) {
-                        $pieces[] = new R($color, $sq, $square, RType::R);
+                        $pieces[] = new R($color, $sq, $square);
                     } else {
                         $class = VariantType::getClass($char, $namespace);
                         $pieces[] = new $class($color, $sq, $square);

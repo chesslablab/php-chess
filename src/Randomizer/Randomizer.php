@@ -2,7 +2,6 @@
 
 namespace Chess\Randomizer;
 
-use Chess\Variant\RType;
 use Chess\Variant\VariantType;
 use Chess\Variant\Classical\Board;
 use Chess\Variant\Classical\K;
@@ -79,8 +78,7 @@ class Randomizer
                 $pieces[] = new $class(
                     $color,
                     $sq,
-                    $this->board->square,
-                    $id !== Piece::R ?: RType::R
+                    $this->board->square
                 );
                 unset($freeSqs[$arrayRand]);
             }

@@ -140,9 +140,9 @@ abstract class AbstractBoard extends \SplObjectStorage
     protected function isLegal(AbstractPiece $piece): bool
     {
         if (str_contains($piece->move['pgn'], Castle::LONG)) {
-            return $piece->castle(RType::CASTLE_LONG);
+            return $piece->castle(Castle::LONG);
         } elseif (str_contains($piece->move['pgn'], Castle::SHORT)) {
-            return $piece->castle(RType::CASTLE_SHORT);
+            return $piece->castle(Castle::SHORT);
         }
 
         return $piece->move();

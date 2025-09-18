@@ -2,7 +2,6 @@
 
 namespace Chess\Variant;
 
-use Chess\Variant\RType;
 use Chess\Variant\Classical\B;
 use Chess\Variant\Classical\N;
 use Chess\Variant\Classical\Q;
@@ -282,8 +281,7 @@ abstract class AbstractPiece
         $this->board->attach(new $class(
             $this->color,
             $this->move['to'],
-            $this->board->square,
-            $this->id === Piece::R ? $this->type : null
+            $this->board->square
         ));
         $this->promote();
         $this->updateCastlingAbility();
@@ -340,8 +338,7 @@ abstract class AbstractPiece
                 $this->board->attach(new R(
                     $this->color,
                     $this->move['to'],
-                    $this->board->square,
-                    RType::R
+                    $this->board->square
                 ));
             } elseif ($this->move['newId'] === Piece::Q) {
                 $this->board->attach(new Q(
@@ -376,9 +373,9 @@ abstract class AbstractPiece
         if ($this->id === Piece::K) {
             $search = $this->board->turn === Color::W ? 'KQ' : 'kq';
         } elseif ($this->id === Piece::R) {
-            if ($this->type === RType::CASTLE_SHORT) {
+            if ($this->sq === $this->board->castlingRule?->rule[$this->color][Castle::SHORT]['r'][0]) {
                 $search = $this->board->turn === Color::W ? 'K' : 'k';
-            } elseif ($this->type === RType::CASTLE_LONG) {
+            } elseif ($this->sq === $this->board->castlingRule?->rule[$this->color][Castle::LONG]['r'][0]) {
                 $search = $this->board->turn === Color::W ? 'Q' : 'q';
             }
         }

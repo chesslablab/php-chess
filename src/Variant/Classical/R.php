@@ -8,13 +8,9 @@ use Chess\Variant\Classical\PGN\Square;
 
 class R extends AbstractLinePiece
 {
-    public string $type;
-
-    public function __construct(string $color, string $sq, Square $square, string $type)
+    public function __construct(string $color, string $sq, Square $square)
     {
         parent::__construct($color, $sq, Piece::R);
-
-        $this->type = $type;
 
         $this->flow = [
             0 => [],

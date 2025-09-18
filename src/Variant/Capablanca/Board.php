@@ -3,7 +3,6 @@
 namespace Chess\Variant\Capablanca;
 
 use Chess\Variant\AbstractBoard;
-use Chess\Variant\RType;
 use Chess\Variant\Capablanca\A;
 use Chess\Variant\Capablanca\C;
 use Chess\Variant\Capablanca\CastlingRule;
@@ -26,7 +25,7 @@ class Board extends AbstractBoard
         $this->move = new Move();
         $this->castlingAbility = CastlingRule::START;
         if (!$pieces) {
-            $this->attach(new R(Color::W, 'a1', $this->square, RType::CASTLE_LONG));
+            $this->attach(new R(Color::W, 'a1', $this->square));
             $this->attach(new N(Color::W, 'b1', $this->square));
             $this->attach(new A(Color::W, 'c1', $this->square));
             $this->attach(new B(Color::W, 'd1', $this->square));
@@ -35,7 +34,7 @@ class Board extends AbstractBoard
             $this->attach(new B(Color::W, 'g1', $this->square));
             $this->attach(new C(Color::W, 'h1', $this->square));
             $this->attach(new N(Color::W, 'i1', $this->square));
-            $this->attach(new R(Color::W, 'j1', $this->square, RType::CASTLE_SHORT));
+            $this->attach(new R(Color::W, 'j1', $this->square));
             $this->attach(new P(Color::W, 'a2', $this->square));
             $this->attach(new P(Color::W, 'b2', $this->square));
             $this->attach(new P(Color::W, 'c2', $this->square));
@@ -46,7 +45,7 @@ class Board extends AbstractBoard
             $this->attach(new P(Color::W, 'h2', $this->square));
             $this->attach(new P(Color::W, 'i2', $this->square));
             $this->attach(new P(Color::W, 'j2', $this->square));
-            $this->attach(new R(Color::B, 'a8', $this->square, RType::CASTLE_LONG));
+            $this->attach(new R(Color::B, 'a8', $this->square));
             $this->attach(new N(Color::B, 'b8', $this->square));
             $this->attach(new A(Color::B, 'c8', $this->square));
             $this->attach(new B(Color::B, 'd8', $this->square));
@@ -55,7 +54,7 @@ class Board extends AbstractBoard
             $this->attach(new B(Color::B, 'g8', $this->square));
             $this->attach(new C(Color::B, 'h8', $this->square));
             $this->attach(new N(Color::B, 'i8', $this->square));
-            $this->attach(new R(Color::B, 'j8', $this->square, RType::CASTLE_SHORT));
+            $this->attach(new R(Color::B, 'j8', $this->square));
             $this->attach(new P(Color::B, 'a7', $this->square));
             $this->attach(new P(Color::B, 'b7', $this->square));
             $this->attach(new P(Color::B, 'c7', $this->square));

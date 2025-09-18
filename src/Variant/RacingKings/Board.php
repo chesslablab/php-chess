@@ -3,7 +3,6 @@
 namespace Chess\Variant\RacingKings;
 
 use Chess\Variant\AbstractBoard;
-use Chess\Variant\RType;
 use Chess\Variant\Classical\B;
 use Chess\Variant\Classical\K;
 use Chess\Variant\Classical\N;
@@ -24,20 +23,20 @@ class Board extends AbstractBoard
         $this->move = new Move();
         if (!$pieces) {
             $this->attach(new Q(Color::B, 'a1', $this->square));
-            $this->attach(new R(Color::B, 'b1', $this->square, RType::R));
+            $this->attach(new R(Color::B, 'b1', $this->square));
             $this->attach(new B(Color::B, 'c1', $this->square));
             $this->attach(new N(Color::B, 'd1', $this->square));
             $this->attach(new N(Color::W, 'e1', $this->square));
             $this->attach(new B(Color::W, 'f1', $this->square));
-            $this->attach(new R(Color::W, 'g1', $this->square, RType::R));
+            $this->attach(new R(Color::W, 'g1', $this->square));
             $this->attach(new Q(Color::W, 'h1', $this->square));
             $this->attach(new K(Color::B, 'a2', $this->square));
-            $this->attach(new R(Color::B, 'b2', $this->square, RType::R));
+            $this->attach(new R(Color::B, 'b2', $this->square));
             $this->attach(new B(Color::B, 'c2', $this->square));
             $this->attach(new N(Color::B, 'd2', $this->square));
             $this->attach(new N(Color::W, 'e2', $this->square));
             $this->attach(new B(Color::W, 'f2', $this->square));
-            $this->attach(new R(Color::W, 'g2', $this->square, RType::R));
+            $this->attach(new R(Color::W, 'g2', $this->square));
             $this->attach(new K(Color::W, 'h2', $this->square));
         } else {
             foreach ($pieces as $piece) {

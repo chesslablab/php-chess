@@ -3,7 +3,6 @@
 namespace Chess\Tests\Unit\Variant\Classical;
 
 use Chess\Tests\AbstractUnitTestCase;
-use Chess\Variant\RType;
 use Chess\Variant\Classical\R;
 use Chess\Variant\Classical\FenToBoardFactory;
 use Chess\Variant\Classical\PGN\Color;
@@ -31,7 +30,7 @@ class RTest extends AbstractUnitTestCase
             3 => ['b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2'],
         ];
 
-        $flow = (new R('w', 'a2', self::$square, RType::R))->flow;
+        $flow = (new R('w', 'a2', self::$square))->flow;
 
         $this->assertEquals($expected, $flow);
     }
@@ -48,7 +47,7 @@ class RTest extends AbstractUnitTestCase
             3 => ['e5', 'f5', 'g5', 'h5'],
         ];
 
-        $flow = (new R('w', 'd5', self::$square, RType::R))->flow;
+        $flow = (new R('w', 'd5', self::$square))->flow;
 
         $this->assertEquals($expected, $flow);
     }
