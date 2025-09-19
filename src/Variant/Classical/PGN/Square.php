@@ -220,17 +220,6 @@ class Square extends AbstractNotation
     }
 
     /**
-     * Extract squares from a string.
-     * 
-     * @param string $string
-     * @return string
-     */
-    public function substr(string $string): string
-    {
-        return preg_replace(static::EXTRACT, '', $string);
-    }
-
-    /**
      * Explode squares from a string.
      * 
      * @param string $string
@@ -241,5 +230,23 @@ class Square extends AbstractNotation
         preg_match_all('/' . static::AN . '/', $string, $matches);
 
         return $matches[0];
+    }
+
+    /**
+     * Extract squares from a string.
+     * 
+     * @param string $string
+     * @return string
+     */
+    public function extract(string $string): array
+    {
+        $str = preg_replace(static::EXTRACT, '', $string);
+        $to = substr($str, -2);
+        $from = str_replace($to, '', $str);
+
+        return [
+            $from,
+            $to,
+        ];
     }
 }

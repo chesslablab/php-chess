@@ -227,7 +227,7 @@ class MoveTest extends AbstractUnitTestCase
             'pgn' => 'c3',
             'color' => 'w',
             'id' => 'P',
-            'from' => 'c',
+            'from' => '',
             'to' => 'c3',
         ];
 
@@ -245,7 +245,7 @@ class MoveTest extends AbstractUnitTestCase
             'pgn' => 'h3',
             'color' => 'w',
             'id' => 'P',
-            'from' => 'h',
+            'from' => '',
             'to' => 'h3',
         ];
 

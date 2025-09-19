@@ -49,41 +49,40 @@ class Move extends AbstractNotation
     public function toArray(string $color, string $pgn, Square $square, CastlingRule $castlingRule = null): array
     {
         if (preg_match('/^' . static::PIECE . '$/', $pgn)) {
-            $sqs = $square->substr($pgn);
-            $to = substr($sqs, -2);
-            $from = str_replace($to, '', $sqs);
+            $sqs = $square->extract($pgn);
             return [
                 'pgn' => $pgn,
                 'color' => $color,
                 'id' => mb_substr($pgn, 0, 1),
-                'from' => $from,
-                'to' => $to,
+                'from' => $sqs[0],
+                'to' => $sqs[1],
             ];
         } elseif (preg_match('/^' . static::PIECE_CAPTURES . '$/', $pgn)) {
-            $arr = explode('x', $pgn);
+            $sqs = $square->extract($pgn);
             return [
                 'pgn' => $pgn,
                 'color' => $color,
                 'id' => mb_substr($pgn, 0, 1),
-                'from' => $square->substr($arr[0]),
-                'to' => $square->substr($arr[1]),
+                'from' => $sqs[0],
+                'to' => $sqs[1],
             ];
         } elseif (preg_match('/^' . static::PAWN . '$/', $pgn)) {
+            $sqs = $square->extract($pgn);
             return [
                 'pgn' => $pgn,
                 'color' => $color,
                 'id' => Piece::P,
-                'from' => mb_substr($pgn, 0, 1),
-                'to' => $square->substr($pgn),
+                'from' => $sqs[0],
+                'to' => $sqs[1],
             ];
         } elseif (preg_match('/^' . static::PAWN_CAPTURES . '$/', $pgn)) {
-            $arr = explode('x', $pgn);
+            $sqs = $square->extract($pgn);
             return [
                 'pgn' => $pgn,
                 'color' => $color,
                 'id' => Piece::P,
-                'from' => mb_substr($pgn, 0, 1),
-                'to' => $square->substr($arr[1]),
+                'from' => $sqs[0],
+                'to' => $sqs[1],
             ];
         } elseif (preg_match('/^' . static::CASTLE_SHORT . '$/', $pgn)) {
             return [
@@ -102,23 +101,24 @@ class Move extends AbstractNotation
                 'to' => $castlingRule?->rule[$color][Castle::LONG][2][1],
             ];
         } elseif (preg_match('/^' . static::PAWN_PROMOTES . '$/', $pgn)) {
+            $sqs = $square->extract($pgn);
             return [
                 'pgn' => $pgn,
                 'color' => $color,
                 'id' => Piece::P,
                 'newId' => substr(explode('=', $pgn)[1], 0, 1),
-                'from' => '',
-                'to' => $square->substr($pgn),
+                'from' => $sqs[0],
+                'to' => $sqs[1],
             ];
         } elseif (preg_match('/^' . static::PAWN_CAPTURES_AND_PROMOTES . '$/', $pgn)) {
-            $arr = explode('x', $pgn);
+            $sqs = $square->extract($pgn);
             return [
                 'pgn' => $pgn,
                 'color' => $color,
                 'id' => Piece::P,
                 'newId' => substr(explode('=', $pgn)[1], 0, 1),
-                'from' => '',
-                'to' => $square->substr($arr[1]),
+                'from' => $sqs[0],
+                'to' => $sqs[1],
             ];
         }
 
