@@ -19,7 +19,7 @@ class Move extends AbstractNotation
     const PAWN = self::CAPTURE . Square::AN . self::CHECK;
     const CASTLE_SHORT = Castle::SHORT . self::CHECK;
     const CASTLE_LONG = Castle::LONG . self::CHECK;
-    const PAWN_PROMOTES = self::CAPTURE . Square::AN . '[=]{0,1}[BNQR]{0,1}' . self::CHECK;
+    const PROMOTION = self::CAPTURE . Square::AN . '[=]{0,1}[BNQR]{0,1}' . self::CHECK;
 
     public function validate(string $value): string
     {
@@ -32,7 +32,7 @@ class Move extends AbstractNotation
                 return $value;
             case preg_match('/^' . static::CASTLE_LONG . '$/', $value):
                 return $value;
-            case preg_match('/^' . static::PAWN_PROMOTES . '$/', $value):
+            case preg_match('/^' . static::PROMOTION . '$/', $value):
                 return $value;
         }
 
@@ -75,7 +75,7 @@ class Move extends AbstractNotation
                 'from' => $castlingRule?->rule[$color][Castle::LONG][2][0],
                 'to' => $castlingRule?->rule[$color][Castle::LONG][2][1],
             ];
-        } elseif (preg_match('/^' . static::PAWN_PROMOTES . '$/', $pgn)) {
+        } elseif (preg_match('/^' . static::PROMOTION . '$/', $pgn)) {
             $sqs = $square->extract($pgn);
             return [
                 'pgn' => $pgn,
