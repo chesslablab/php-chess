@@ -1582,8 +1582,8 @@ class BoardTest extends AbstractUnitTestCase
         $board = FenToBoardFactory::create('7k/8/8/8/8/8/8/K7 w - - 0 1');
 
         for ($i = 0; $i < 99; $i++) {
-            if ($move = (new RandomMove($board))->move()) {
-                $board->play($board->turn, $move['pgn']);
+            if ($lan = (new RandomMove($board))->move()) {
+                $board->playLan($board->turn, $lan);
             }
         }
 
@@ -1598,8 +1598,8 @@ class BoardTest extends AbstractUnitTestCase
         $board = FenToBoardFactory::create('7k/8/8/8/8/8/8/K7 w - - 0 1');
 
         for ($i = 0; $i < 100; $i++) {
-            if ($move = (new RandomMove($board))->move()) {
-                $board->play($board->turn, $move['pgn']);
+            if ($lan = (new RandomMove($board))->move()) {
+                $board->playLan($board->turn, $lan);
             }
         }
 
