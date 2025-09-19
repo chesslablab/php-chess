@@ -118,8 +118,8 @@ use Chess\Variant\Classical\Board;
 $board = new Board();
 
 for ($i = 0; $i &lt; 50; $i++) {
-    if ($move = (new RandomMove($board))-&gt;move()) {
-        $board-&gt;play($board-&gt;turn, $move['pgn']);
+    if ($lan = (new RandomMove($board))-&gt;move()) {
+        $board-&gt;playLan($board-&gt;turn, $lan);
     }
 }
 
