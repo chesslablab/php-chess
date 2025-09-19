@@ -11,17 +11,15 @@ use Chess\Variant\Classical\PGN\Square;
 
 class Move extends AbstractNotation
 {
+    const CAPTURE = '[a-h]{0,1}x{0,1}';
     const CHECK = '[\+\#]{0,1}';
+    const ELLIPSIS = '...';
+
+    const PIECE = '[BKNQR]{1}[a-h]{0,1}[1-8]{0,1}' . self::CAPTURE. Square::AN . self::CHECK;
+    const PAWN = self::CAPTURE . Square::AN . self::CHECK;
     const CASTLE_SHORT = Castle::SHORT . self::CHECK;
     const CASTLE_LONG = Castle::LONG . self::CHECK;
-    const ELLIPSIS = '...';
-    const PAWN = Square::AN . self::CHECK;
-    const PAWN_CAPTURES = '[a-h]{1}x' . Square::AN . self::CHECK;
-    const PAWN_PROMOTES = Square::AN . '[=]{0,1}[NBRQ]{0,1}' . self::CHECK;
-    const PAWN_CAPTURES_AND_PROMOTES = '[a-h]{1}x' . '[a-h]{1}(1|8){1}' . '[=]{0,1}[NBRQ]{0,1}' . self::CHECK;
-    const PIECE = '[BKNQR]{1}[a-h]{0,1}[1-8]{0,1}' . self::CAPTURE. Square::AN . self::CHECK;
-
-    const CAPTURE = 'x{0,1}';
+    const PAWN_PROMOTES = self::CAPTURE . Square::AN . '[=]{0,1}[BNQR]{0,1}' . self::CHECK;
 
     public function validate(string $value): string
     {
@@ -30,15 +28,11 @@ class Move extends AbstractNotation
                 return $value;
             case preg_match('/^' . static::PAWN . '$/', $value):
                 return $value;
-            case preg_match('/^' . static::PAWN_CAPTURES . '$/', $value):
-                return $value;
             case preg_match('/^' . static::CASTLE_SHORT . '$/', $value):
                 return $value;
             case preg_match('/^' . static::CASTLE_LONG . '$/', $value):
                 return $value;
             case preg_match('/^' . static::PAWN_PROMOTES . '$/', $value):
-                return $value;
-            case preg_match('/^' . static::PAWN_CAPTURES_AND_PROMOTES . '$/', $value):
                 return $value;
         }
 
@@ -65,15 +59,6 @@ class Move extends AbstractNotation
                 'from' => $sqs[0],
                 'to' => $sqs[1],
             ];
-        } elseif (preg_match('/^' . static::PAWN_CAPTURES . '$/', $pgn)) {
-            $sqs = $square->extract($pgn);
-            return [
-                'pgn' => $pgn,
-                'color' => $color,
-                'id' => Piece::P,
-                'from' => $sqs[0],
-                'to' => $sqs[1],
-            ];
         } elseif (preg_match('/^' . static::CASTLE_SHORT . '$/', $pgn)) {
             return [
                 'pgn' => $pgn,
@@ -91,16 +76,6 @@ class Move extends AbstractNotation
                 'to' => $castlingRule?->rule[$color][Castle::LONG][2][1],
             ];
         } elseif (preg_match('/^' . static::PAWN_PROMOTES . '$/', $pgn)) {
-            $sqs = $square->extract($pgn);
-            return [
-                'pgn' => $pgn,
-                'color' => $color,
-                'id' => Piece::P,
-                'newId' => substr(explode('=', $pgn)[1], 0, 1),
-                'from' => $sqs[0],
-                'to' => $sqs[1],
-            ];
-        } elseif (preg_match('/^' . static::PAWN_CAPTURES_AND_PROMOTES . '$/', $pgn)) {
             $sqs = $square->extract($pgn);
             return [
                 'pgn' => $pgn,

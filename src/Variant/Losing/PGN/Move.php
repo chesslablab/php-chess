@@ -7,7 +7,6 @@ use Chess\Variant\Classical\PGN\Square;
 
 class Move extends ClassicalPgnMove
 {
-    const PAWN_PROMOTES = '[a-h]{1}(1|8){1}' . '[=]{0,1}[NBRQM]{0,1}' . self::CHECK;
-    const PAWN_CAPTURES_AND_PROMOTES = '[a-h]{1}x' . '[a-h]{1}(1|8){1}' . '[=]{0,1}[NBRQM]{0,1}' . self::CHECK;
     const PIECE = '[BMNQR]{1}[a-h]{0,1}[1-8]{0,1}' . self::CAPTURE . Square::AN . self::CHECK;
+    const PAWN_PROMOTES = self::CAPTURE . '[a-h]{1}(1|8){1}' . '[=]{0,1}[BMNQR]{0,1}' . self::CHECK;
 }
