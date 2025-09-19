@@ -63,12 +63,11 @@ class FanMovetext extends AbstractMovetext
     private function replace($letter, $unicode, &$movetext): FanMovetext
     {
 
-        preg_match_all('/' . Move::PIECE . '/', $movetext, $a);
-        preg_match_all('/' . Move::PIECE_CAPTURES . '/', $movetext, $b);
+        preg_match_all('/' . Move::PIECE . '/', $movetext, $matches);
         array_map(function ($match) use ($letter, $unicode, &$movetext) {
             $replaced = str_replace($letter, $unicode, $match);
             $movetext = str_replace($match, $replaced, $movetext);
-        }, [...$a[0], ...$b[0]]);
+        }, $matches[0]);
 
         return $this;
     }

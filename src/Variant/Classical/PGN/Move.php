@@ -19,15 +19,14 @@ class Move extends AbstractNotation
     const PAWN_CAPTURES = '[a-h]{1}x' . Square::AN . self::CHECK;
     const PAWN_PROMOTES = Square::AN . '[=]{0,1}[NBRQ]{0,1}' . self::CHECK;
     const PAWN_CAPTURES_AND_PROMOTES = '[a-h]{1}x' . '[a-h]{1}(1|8){1}' . '[=]{0,1}[NBRQ]{0,1}' . self::CHECK;
-    const PIECE = '[BKNQR]{1}[a-h]{0,1}[1-8]{0,1}' . Square::AN . self::CHECK;
-    const PIECE_CAPTURES = '[BKNQR]{1}[a-h]{0,1}[1-8]{0,1}x' . Square::AN . self::CHECK;
+    const PIECE = '[BKNQR]{1}[a-h]{0,1}[1-8]{0,1}' . self::CAPTURE. Square::AN . self::CHECK;
+
+    const CAPTURE = 'x{0,1}';
 
     public function validate(string $value): string
     {
         switch (true) {
             case preg_match('/^' . static::PIECE . '$/', $value):
-                return $value;
-            case preg_match('/^' . static::PIECE_CAPTURES . '$/', $value):
                 return $value;
             case preg_match('/^' . static::PAWN . '$/', $value):
                 return $value;
@@ -49,15 +48,6 @@ class Move extends AbstractNotation
     public function toArray(string $color, string $pgn, Square $square, CastlingRule $castlingRule = null): array
     {
         if (preg_match('/^' . static::PIECE . '$/', $pgn)) {
-            $sqs = $square->extract($pgn);
-            return [
-                'pgn' => $pgn,
-                'color' => $color,
-                'id' => mb_substr($pgn, 0, 1),
-                'from' => $sqs[0],
-                'to' => $sqs[1],
-            ];
-        } elseif (preg_match('/^' . static::PIECE_CAPTURES . '$/', $pgn)) {
             $sqs = $square->extract($pgn);
             return [
                 'pgn' => $pgn,
